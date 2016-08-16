@@ -1,0 +1,614 @@
+{
+ "kind": "discovery#restDescription",
+ "etag": "\"zRMgE0l9nVDW4S28VYYcYQF9UW4/9o1J9i0_neAkn4wJbODms9cn2p8\"",
+ "discoveryVersion": "v1",
+ "id": "managerManagerApi:v1",
+ "name": "managerManagerApi",
+ "version": "v1",
+ "description": "This is an API",
+ "ownerDomain": "backend.myapplication.Operator.example.com",
+ "ownerName": "backend.myapplication.Operator.example.com",
+ "icons": {
+  "x16": "http://www.google.com/images/icons/product/search-16.gif",
+  "x32": "http://www.google.com/images/icons/product/search-32.gif"
+ },
+ "protocol": "rest",
+ "baseUrl": "https://sincere-baton-123818.appspot.com/_ah/api/managerManagerApi/v1/",
+ "basePath": "/_ah/api/managerManagerApi/v1/",
+ "rootUrl": "https://sincere-baton-123818.appspot.com/_ah/api/",
+ "servicePath": "managerManagerApi/v1/",
+ "batchPath": "batch",
+ "parameters": {
+  "alt": {
+   "type": "string",
+   "description": "Data format for the response.",
+   "default": "json",
+   "enum": [
+    "json"
+   ],
+   "enumDescriptions": [
+    "Responses with Content-Type of application/json"
+   ],
+   "location": "query"
+  },
+  "fields": {
+   "type": "string",
+   "description": "Selector specifying which fields to include in a partial response.",
+   "location": "query"
+  },
+  "key": {
+   "type": "string",
+   "description": "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token.",
+   "location": "query"
+  },
+  "oauth_token": {
+   "type": "string",
+   "description": "OAuth 2.0 token for the current user.",
+   "location": "query"
+  },
+  "prettyPrint": {
+   "type": "boolean",
+   "description": "Returns response with indentations and line breaks.",
+   "default": "true",
+   "location": "query"
+  },
+  "quotaUser": {
+   "type": "string",
+   "description": "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters. Overrides userIp if both are provided.",
+   "location": "query"
+  },
+  "userIp": {
+   "type": "string",
+   "description": "IP address of the site where the request originates. Use this if you want to enforce per-user limits.",
+   "location": "query"
+  }
+ },
+ "auth": {
+  "oauth2": {
+   "scopes": {
+    "https://www.googleapis.com/auth/userinfo.email": {
+     "description": "View your email address"
+    }
+   }
+  }
+ },
+ "schemas": {
+  "CollectionResponse_ManagerManager": {
+   "id": "CollectionResponse_ManagerManager",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "ManagerManager"
+     }
+    },
+    "nextPageToken": {
+     "type": "string"
+    }
+   }
+  },
+  "Employee": {
+   "id": "Employee",
+   "type": "object",
+   "properties": {
+    "email": {
+     "type": "string"
+    },
+    "id": {
+     "type": "string",
+     "format": "int64"
+    },
+    "managerEmailRegId": {
+     "$ref": "JsonMap"
+    },
+    "regId": {
+     "type": "string"
+    }
+   }
+  },
+  "JsonMap": {
+   "id": "JsonMap",
+   "type": "object"
+  },
+  "ManagerManager": {
+   "id": "ManagerManager",
+   "type": "object",
+   "properties": {
+    "email": {
+     "type": "string"
+    },
+    "employeeEmailKeyMap": {
+     "$ref": "JsonMap"
+    },
+    "id": {
+     "type": "string",
+     "format": "int64"
+    },
+    "isManager": {
+     "type": "boolean"
+    },
+    "listEmails": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "regId": {
+     "type": "string"
+    }
+   }
+  }
+ },
+ "methods": {
+  "alreadyExists": {
+   "id": "managerManagerApi.alreadyExists",
+   "path": "managerManager/exist",
+   "httpMethod": "GET",
+   "parameters": {
+    "regDeviceId": {
+     "type": "string",
+     "required": true,
+     "location": "query"
+    }
+   },
+   "parameterOrder": [
+    "regDeviceId"
+   ],
+   "response": {
+    "$ref": "ManagerManager"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "chekingId": {
+   "id": "managerManagerApi.chekingId",
+   "path": "managerManager/check/{id}",
+   "httpMethod": "GET",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "confirm": {
+   "id": "managerManagerApi.confirm",
+   "path": "managerManager/confirm/{id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "confirmemails": {
+     "type": "string",
+     "required": true,
+     "repeated": true,
+     "location": "query"
+    },
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id",
+    "confirmemails"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "deleteEFromFriend": {
+   "id": "managerManagerApi.deleteEFromFriend",
+   "path": "managerManager/deleteEFromFriend/{id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "employeeEmail": {
+     "type": "string",
+     "required": true,
+     "location": "query"
+    },
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id",
+    "employeeEmail"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "deleteListEFromFriend": {
+   "id": "managerManagerApi.deleteListEFromFriend",
+   "path": "managerManager/deleteListEFromFriend/{id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "employeeListEmails": {
+     "type": "string",
+     "required": true,
+     "repeated": true,
+     "location": "query"
+    },
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id",
+    "employeeListEmails"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "deleteRequest": {
+   "id": "managerManagerApi.deleteRequest",
+   "path": "managerManager/deleteRequest/{id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "deleteEmail": {
+     "type": "string",
+     "required": true,
+     "location": "query"
+    },
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id",
+    "deleteEmail"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "get": {
+   "id": "managerManagerApi.get",
+   "path": "managerManager/{id}",
+   "httpMethod": "GET",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "response": {
+    "$ref": "ManagerManager"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "getEmployeeRequest": {
+   "id": "managerManagerApi.getEmployeeRequest",
+   "path": "managerManager/confirm/{id}",
+   "httpMethod": "GET",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "response": {
+    "$ref": "ManagerManager"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "getManager": {
+   "id": "managerManagerApi.getManager",
+   "path": "managerManager/getManager/{id}",
+   "httpMethod": "GET",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "response": {
+    "$ref": "ManagerManager"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "giveEmployeetLocation": {
+   "id": "managerManagerApi.giveEmployeetLocation",
+   "path": "managerManager/spy",
+   "httpMethod": "GET",
+   "parameters": {
+    "employeeEmail": {
+     "type": "string",
+     "required": true,
+     "location": "query"
+    },
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "query"
+    }
+   },
+   "parameterOrder": [
+    "employeeEmail",
+    "id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "insert": {
+   "id": "managerManagerApi.insert",
+   "path": "managerManager",
+   "httpMethod": "POST",
+   "request": {
+    "$ref": "ManagerManager",
+    "parameterName": "resource"
+   },
+   "response": {
+    "$ref": "ManagerManager"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "list": {
+   "id": "managerManagerApi.list",
+   "path": "managerManager",
+   "httpMethod": "GET",
+   "parameters": {
+    "cursor": {
+     "type": "string",
+     "location": "query"
+    },
+    "limit": {
+     "type": "integer",
+     "format": "int32",
+     "location": "query"
+    }
+   },
+   "response": {
+    "$ref": "CollectionResponse_ManagerManager"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "patch": {
+   "id": "managerManagerApi.patch",
+   "path": "managerManager/{id}",
+   "httpMethod": "PATCH",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "request": {
+    "$ref": "ManagerManager"
+   },
+   "response": {
+    "$ref": "ManagerManager"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "remove": {
+   "id": "managerManagerApi.remove",
+   "path": "managerManager/{id}",
+   "httpMethod": "DELETE",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "sPY": {
+   "id": "managerManagerApi.sPY",
+   "path": "managerManager/SPY/{id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "employeeEmails": {
+     "type": "string",
+     "required": true,
+     "repeated": true,
+     "location": "query"
+    },
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    },
+    "spymessage": {
+     "type": "string",
+     "required": true,
+     "location": "query"
+    }
+   },
+   "parameterOrder": [
+    "id",
+    "employeeEmails",
+    "spymessage"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "setManagerRegId": {
+   "id": "managerManagerApi.setManagerRegId",
+   "path": "managerManager/setManagerRegId/{id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    },
+    "setRegId": {
+     "type": "string",
+     "required": true,
+     "location": "query"
+    }
+   },
+   "parameterOrder": [
+    "id",
+    "setRegId"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "stopSpy": {
+   "id": "managerManagerApi.stopSpy",
+   "path": "managerManager/{id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "email": {
+     "type": "string",
+     "required": true,
+     "location": "query"
+    },
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id",
+    "email"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "update": {
+   "id": "managerManagerApi.update",
+   "path": "managerManager/{id}",
+   "httpMethod": "PUT",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "request": {
+    "$ref": "ManagerManager",
+    "parameterName": "resource"
+   },
+   "response": {
+    "$ref": "ManagerManager"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "workAroundFillList": {
+   "id": "managerManagerApi.workAroundFillList",
+   "path": "managerManager/workAroundFiilList/{id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  }
+ },
+ "resources": {
+  "managerManager": {
+   "methods": {
+    "changeEmployeeRegIInRelationsGroup": {
+     "id": "managerManagerApi.managerManager.changeEmployeeRegIInRelationsGroup",
+     "path": "managermanager/{regDeviceId}",
+     "httpMethod": "POST",
+     "parameters": {
+      "regDeviceId": {
+       "type": "string",
+       "required": true,
+       "location": "path"
+      }
+     },
+     "parameterOrder": [
+      "regDeviceId"
+     ],
+     "request": {
+      "$ref": "Employee",
+      "parameterName": "resource"
+     },
+     "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email"
+     ]
+    }
+   }
+  }
+ }
+}

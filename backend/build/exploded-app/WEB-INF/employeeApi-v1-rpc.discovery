@@ -1,0 +1,362 @@
+{
+ "kind": "discovery#rpcDescription",
+ "etag": "\"zRMgE0l9nVDW4S28VYYcYQF9UW4/Z2zNU-5ZJqu-DMdrACBiktUIYVk\"",
+ "discoveryVersion": "v1",
+ "id": "employeeApi:v1",
+ "name": "employeeApi",
+ "version": "v1",
+ "description": "This is an API",
+ "ownerDomain": "backend.myapplication.Operator.example.com",
+ "ownerName": "backend.myapplication.Operator.example.com",
+ "icons": {
+  "x16": "http://www.google.com/images/icons/product/search-16.gif",
+  "x32": "http://www.google.com/images/icons/product/search-32.gif"
+ },
+ "protocol": "rpc",
+ "rootUrl": "https://sincere-baton-123818.appspot.com/_ah/api/",
+ "rpcUrl": "https://sincere-baton-123818.appspot.com/_ah/api/rpc",
+ "rpcPath": "/_ah/api/rpc",
+ "parameters": {
+  "alt": {
+   "type": "string",
+   "description": "Data format for the response.",
+   "default": "json",
+   "enum": [
+    "json"
+   ],
+   "enumDescriptions": [
+    "Responses with Content-Type of application/json"
+   ],
+   "location": "query"
+  },
+  "fields": {
+   "type": "string",
+   "description": "Selector specifying which fields to include in a partial response.",
+   "location": "query"
+  },
+  "key": {
+   "type": "string",
+   "description": "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token.",
+   "location": "query"
+  },
+  "oauth_token": {
+   "type": "string",
+   "description": "OAuth 2.0 token for the current user.",
+   "location": "query"
+  },
+  "prettyPrint": {
+   "type": "boolean",
+   "description": "Returns response with indentations and line breaks.",
+   "default": "true",
+   "location": "query"
+  },
+  "quotaUser": {
+   "type": "string",
+   "description": "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters. Overrides userIp if both are provided.",
+   "location": "query"
+  },
+  "userIp": {
+   "type": "string",
+   "description": "IP address of the site where the request originates. Use this if you want to enforce per-user limits.",
+   "location": "query"
+  }
+ },
+ "auth": {
+  "oauth2": {
+   "scopes": {
+    "https://www.googleapis.com/auth/userinfo.email": {
+     "description": "View your email address"
+    }
+   }
+  }
+ },
+ "schemas": {
+  "CollectionResponse_Employee": {
+   "id": "CollectionResponse_Employee",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "Employee"
+     }
+    },
+    "nextPageToken": {
+     "type": "string"
+    }
+   }
+  },
+  "Employee": {
+   "id": "Employee",
+   "type": "object",
+   "properties": {
+    "email": {
+     "type": "string"
+    },
+    "id": {
+     "type": "string",
+     "format": "int64"
+    },
+    "managerEmailRegId": {
+     "$ref": "JsonMap"
+    },
+    "regId": {
+     "type": "string"
+    }
+   }
+  },
+  "JsonMap": {
+   "id": "JsonMap",
+   "type": "object"
+  }
+ },
+ "methods": {
+  "employeeApi.get": {
+   "id": "employeeApi.get",
+   "allowGet": true,
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "returns": {
+    "$ref": "Employee"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "employeeApi.getEmployesTest": {
+   "id": "employeeApi.getEmployesTest",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "employeeApi.hELP": {
+   "id": "employeeApi.hELP",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "employeeApi.hired": {
+   "id": "employeeApi.hired",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64"
+    },
+    "managerEmail": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id",
+    "managerEmail"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "employeeApi.insert": {
+   "id": "employeeApi.insert",
+   "parameters": {
+    "resource": {
+     "$ref": "Employee"
+    }
+   },
+   "parameterOrder": [
+    "resource"
+   ],
+   "returns": {
+    "$ref": "Employee"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "employeeApi.list": {
+   "id": "employeeApi.list",
+   "allowGet": true,
+   "parameters": {
+    "cursor": {
+     "type": "string"
+    },
+    "limit": {
+     "type": "integer",
+     "format": "int32"
+    }
+   },
+   "returns": {
+    "$ref": "CollectionResponse_Employee"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "employeeApi.outside": {
+   "id": "employeeApi.outside",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64"
+    },
+    "spymessage": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id",
+    "spymessage"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "employeeApi.patch": {
+   "id": "employeeApi.patch",
+   "supportsPatch": true,
+   "parameters": {
+    "email": {
+     "type": "string"
+    },
+    "id": {
+     "type": "string",
+     "format": "int64"
+    },
+    "managerEmailRegId": {
+     "$ref": "JsonMap"
+    },
+    "regId": {
+     "type": "string"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "returns": {
+    "$ref": "Employee"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "employeeApi.remove": {
+   "id": "employeeApi.remove",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "employeeApi.sendEmployeetLocation": {
+   "id": "employeeApi.sendEmployeetLocation",
+   "allowGet": true,
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64"
+    },
+    "latitude": {
+     "type": "number",
+     "required": true,
+     "format": "double"
+    },
+    "longitude": {
+     "type": "number",
+     "required": true,
+     "format": "double"
+    }
+   },
+   "parameterOrder": [
+    "id",
+    "latitude",
+    "longitude"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "employeeApi.setEmployeeRegId": {
+   "id": "employeeApi.setEmployeeRegId",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64"
+    },
+    "setRegId": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id",
+    "setRegId"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "employeeApi.update": {
+   "id": "employeeApi.update",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64"
+    },
+    "resource": {
+     "$ref": "Employee"
+    }
+   },
+   "parameterOrder": [
+    "resource",
+    "id"
+   ],
+   "returns": {
+    "$ref": "Employee"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  }
+ }
+}

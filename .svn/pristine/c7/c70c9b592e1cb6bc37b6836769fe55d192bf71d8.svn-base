@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/mater"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="82dp"
+        android:padding="10dp">
+        <View
+            android:id="@+id/details_circle"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/circle"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"/>
+        <TextView
+            android:id="@+id/details_user_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/details_circle"
+            android:layout_marginLeft="10dp"
+            android:text="jonh.doe@example.com"
+            android:layout_centerVertical="true"
+            android:textColor="#000"
+            android:textSize="25sp"/>
+        <!--        <TextView
+                    android:id="@+id/details_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jonh Doe"
+                    android:layout_toRightOf="@+id/details_circle"
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:textColor="#000"
+                    android:textSize="25sp"/>-->
+    </RelativeLayout>
+    <!--    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/details_email_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email:"
+                    android:textColor="#000"
+                    android:textSize="20sp"/>
+
+            </RelativeLayout>
+        </LinearLayout>-->
+</LinearLayout>

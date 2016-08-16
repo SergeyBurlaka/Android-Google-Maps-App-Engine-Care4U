@@ -1,0 +1,51 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.MainActivity">
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/myRefreshMap"
+        android:icon="@mipmap/human_i"
+        app:showAsAction="always"
+        android:title="@string/refresh"/>
+
+    <item
+        android:id="@+id/spy_for_employee"
+        android:icon="@mipmap/eye_wh_i"
+        app:showAsAction="always"
+        android:title="Compose">
+    </item>
+
+
+    <item
+        android:id="@+id/stop_spy"
+        android:icon="@mipmap/stop_ic"
+        app:showAsAction="always"
+        android:title="Stop spy">
+    </item>
+
+
+    <item
+        android:id="@+id/study"
+        app:showAsAction="never"
+        android:title="Help">
+    </item>
+
+    <item
+        android:id="@+id/forDebug"
+        app:showAsAction="never"
+        android:title="For debug 101">
+    </item>
+
+
+
+
+    <!---  TODO_aborted:1 -->
+    <!---  TODO_aborted: set item stop spy with imageView always shoeAs action   -->
+
+</menu>

@@ -1,0 +1,1856 @@
+package com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.Manager.managerMap;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.Typeface;
+import android.location.Location;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.Layout;
+import android.text.TextPaint;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.Employee.employeeMap.CircleLabel;
+import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.GCM.CreateSpyMessage;
+import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.GCM.MessageAgent;
+import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.GCM.MessageConstant;
+import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.Manager.AsynTaskForManager;
+import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.Manager.AsynTaskForManagerEnum;
+import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.Manager.EmployeeLocation;
+import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.Manager.ManagerCabinetListActivity;
+import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
+// import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.CircleLabel;
+
+public class UserMapsActivity extends ActionBarActivity implements  /*View.OnClickListener,*/GoogleMap.OnMapClickListener, OnMapReadyCallback, com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+
+    private   CreateSpyMessage createSpyMessage;
+    private GoogleMap mMap;
+    private Marker marker, markerEmployee;
+    EmployeeLocation employeeLocation ;
+    private Circle circleAreaMarker, oldCircle;
+    private EditText radius;
+    private final int earthRadius = 6371; //NOTE: this is in kilometers
+
+    private final int START_RADIUS_VALUE= 65;
+    private GoogleApiClient mGoogleApiClient = null;
+    private LocationRequest mLocationRequest;
+    private CircleLabel circleLabel;
+    private String employeeEmailStr;
+
+    private EditText spyEmployeeEmail;
+    private Bundle user;
+
+    private SeekBar seekBar;
+    private TextView textView;
+
+    private static final String TAG = "User Map";
+
+    private  double latitude;
+    private  double longitude;
+
+    private Location mCurrentLocation;
+
+
+    private Spinner spinner;
+    private List<String> mNavigationItems;
+    private ArrayAdapter<CharSequence> mArrayAdapter;
+    /***
+     * Boolean to know which version is running
+     */
+    private boolean postICS,postLollipop;
+
+    //for work with service
+   // private MyServiseSetMarker myService;
+  //  private boolean bound = false;
+
+
+    private SharedPreferences.Editor editor;
+
+    private  Marker mMarker = null;
+
+    private  MarkerOptions markerEmployeeLoc;
+
+   private int openMapFrom;
+
+    private  String employeeSelected;
+
+    private SharedPreferences shared;
+
+    //private final String COLOR_BLUE_HEX = "#73D1EEEE";
+   private SharedPreferences sp;
+
+    private boolean visibleBar = false, tips = false;
+
+    private Button btnTopRight;
+
+    private EditText getRadius ;
+
+    private double getDoubleRadius;
+
+    private TextView labelSetRadius;
+
+    private TextInputLayout inputLayoutName;
+
+    private  final double SOME_HORIZONTAL_DISTANCE = 0.0007, SOME_VERTICAL_DISTANCE = 0.0002;
+
+    MenuItem itemSpy, itemStop, itemRefresh, itemHelp;
+
+    private TextView employeeNameText;
+
+    //for detect if opened first time to show tips study
+    //i create shared preference flag in settings
+    final String PREFS_NAME = "MyPrefsFile";
+    SharedPreferences settings;
+
+
+    ////TODO_done create flag "did tips started?"
+    private boolean isTipStarted = false;
+
+    //TODO_done create flag isSPy
+        private boolean isSpy, firstTime = true;
+
+
+    //for win under some bugs
+   // private boolean isEndOfDemoStudy=false;
+
+    //@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+       sp = getSharedPreferences(MessageConstant.MANAGER_INFO, MODE_PRIVATE);
+
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setContentView(R.layout.activity_user_maps);
+       //findViewById(R.id.gButton).setOnClickListener(this);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        //TODO_done+in 13:00 23june 16  add arrow return
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+
+
+
+        user = getIntent().getExtras();
+
+       openMapFrom = user.getInt(MessageConstant.OPEN_USER_MAP_FROM);
+
+        //get employee selected email
+        employeeSelected =  user.getString(MessageConstant.EMPLOYEE_LOC_EMAIL);
+
+
+        //getSupportActionBar().setTitle(employeeSelected);
+        employeeNameText= (TextView) findViewById(android.R.id.text1);
+        employeeNameText.setText(employeeSelected);
+
+
+       // findViewById(android.R.id.button1).setOnClickListener(this);
+      // buttonArea.setOnClickListener(this);
+
+
+       if(openMapFrom == MessageConstant.FROM_NOTIFICATION){
+           createEmployeeLocationObject ();
+
+
+       }
+
+      //  seekBar = (SeekBar) findViewById(R.id.seekBarCircle);
+       //   textView = (TextView) findViewById(R.id.textViewSeekBarCircle);
+
+
+    MapFragment mapFragment = (MapFragment) getFragmentManager()    //get map fragment
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)    //set properties for location request
+                .setFastestInterval(1000)
+                .setInterval(5000);
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(mLocationRequest);
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this) //set properties for google api client
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+        mGoogleApiClient.connect(); //connect to google api
+
+
+
+
+        /*
+        seekBar.setVisibility(View.GONE);
+
+
+        textView.setVisibility(View.GONE);
+
+
+        // Initialize the textview with '0'.
+        textView.setText("Covered: " + seekBar.getProgress() + "/" + seekBar.getMax());
+
+        seekBar.setProgress(200);
+        textView.setText("Covered: " + 200 + "/" + seekBar.getMax());
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progress = 0;
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
+                progress = progresValue;
+                //Toast.makeText(getApplicationContext(), "Changing seekbar's progress", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                //Toast.makeText(getApplicationContext(), "Started tracking seekbar", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                textView.setText("Covered: " + progress + "/" + seekBar.getMax());
+                circle.setRadius(progress);
+                // Toast.makeText(getApplicationContext(), "Stopped tracking seekbar", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        */
+
+
+        /*
+            //TODO_done+: for creating marker
+        Bitmap.Config conf = Bitmap.Config.ARGB_8888;
+        Bitmap bmp = Bitmap.createBitmap(200, 50, conf);
+        Canvas canvas = new Canvas(bmp);
+
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.BLUE);
+       // paint.setTypeface(tf);
+        paint.setTextAlign(Paint.Align.CENTER);
+       // paint.setTextSize(convertToPixels(context, 11));
+       */
+
+        //Init marker for  employee
+
+        //canvas.drawText("TEXT", 0, 50, paint); // paint defines the text color, stroke width, size
+        markerEmployeeLoc =  new MarkerOptions()
+               .icon(BitmapDescriptorFactory.fromBitmap(writeTextOnDrawable(R.mipmap.human_i, "" )));
+
+
+        createRadiusInputField ();
+
+        //ClipData.Item btnTopRight =  findViewById(R.id.spy_for_employee);
+
+
+
+
+    }
+
+
+
+
+
+
+
+    /*
+        For change item in toolbar in StartSpy Item  or in StopSpy Item
+     */
+    private boolean setSpyOrStopItem(){
+
+
+        //TODO_done just check status if spy set visible stop or set visible spyItem
+        SharedPreferences pref =this.getSharedPreferences(MessageConstant.STATUS_SPY_VIEW, this.MODE_PRIVATE);
+        int statusSpy = pref.getInt(employeeSelected,MessageConstant.NO_SPY);
+
+        if (statusSpy == MessageConstant.NO_SPY){
+
+            //<!--11:30 07 jule16
+            //TODO_done_all_from3h >>3*---*
+            //TODO_done set status in flag isSPy
+                isSpy = false;
+            //-->
+
+            itemStop.setVisible(false);
+            itemSpy.setVisible(true);
+            return isSpy;
+
+        }else{
+
+            //<!--11:30 07 jule16
+            //TODO_done_all_from3h >>3*---*
+            //TODO_done set status in flag isSpy
+                isSpy = true;
+            //-->
+
+            itemStop.setVisible(true);
+            itemSpy.setVisible(false);
+            return isSpy;
+
+        }
+
+
+    }
+
+
+
+
+    /*
+        Create field for input value of circle
+     */
+    private void createRadiusInputField (){
+
+        inputLayoutName = (TextInputLayout) findViewById(R.id.input_layout_name_for_radius);
+        //private TextInputLayout inputLayoutName
+
+        //get link to edit Text for get radius
+        getRadius = (EditText) findViewById(R.id.inputRadius);
+      //  labelSetRadius = (TextView) findViewById(R.id.textSetRadiusMap);
+      //  inputLayoutName.setHint("Enter radius");
+
+
+       // getRadius.setText(String.valueOf(START_RADIUS_VALUE));
+
+       // int textLength =  getRadius.getText().length();
+       // getRadius.setSelection(textLength, textLength);
+
+
+        getRadius.addTextChangedListener(new TextWatcher(){
+
+            //TODO_done change dynamically circle
+
+            public void afterTextChanged(Editable s) {
+                String textRadius =  getRadius.getText().toString();
+                if (textRadius.matches(""))return;
+                // getDoubleRadius = Double.parseDouble(textRadius);
+                getDoubleRadius = new Double(textRadius);
+                circleAreaMarker.setRadius(getDoubleRadius);
+
+
+
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){
+
+
+
+
+            }
+        });
+
+        getRadius.setVisibility(View.INVISIBLE);
+       // findViewById(R.id.textSetRadiusMap).setVisibility(View.INVISIBLE);
+
+        //ClipData.Item btnTopRight =  findViewById(R.id.spy_for_employee);
+
+
+
+
+    }
+
+
+
+   /*
+      Create object with data about location of employee  also about his circular area(circle)
+    */
+    private void createEmployeeLocationObject (){
+
+        employeeLocation = new EmployeeLocation();
+
+        employeeLocation.setCircle1latitude(user.getDouble(MessageConstant.CIRCLE_LATITUDE ));
+        employeeLocation.setCircleLongitude(user.getDouble(MessageConstant.CIRCLE_LONGITUDE));
+        employeeLocation.setRadius(user.getDouble(MessageConstant.CIRCLE_RADIUS));
+
+       // employeeLocation.setHere(user.getBoolean(MessageConstant.EMPLOYEE_LOC_IS_HERE));
+
+        employeeLocation.setEmployeeLatitude(user.getDouble(MessageConstant.EMPLOYEE_LOC_LATITUDE));
+        employeeLocation.setEmployeeLongitude(user.getDouble(MessageConstant.EMPLOYEE_lOC_LONGITUDE));
+
+       // employeeLocation.setEmployeeEmail(user.getString(MessageConstant.EMPLOYEE_LOC_EMAIL));
+       // employeeLocation.setStatusConst( user.getInt(MessageConstant.EMPLOYEE_LOC_STATUS_CONST));
+
+    }
+
+
+    /*
+    *    for creating icon - marker in map
+    *
+     */
+    private Bitmap writeTextOnDrawable(int drawableId, String text) {
+
+        Bitmap bm = BitmapFactory.decodeResource(getResources(), drawableId)
+                .copy(Bitmap.Config.ARGB_4444, true);
+
+        Typeface tf = Typeface.create("Helvetica", Typeface.BOLD);
+
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.RED);
+        paint.setTypeface(tf);
+        paint.setFakeBoldText(true);
+       paint.setTextAlign(Paint.Align.CENTER);
+        paint.setTextSize(convertToPixels(this, 11));
+
+        Rect textRect = new Rect();
+        //paint.getTextBounds(text, 0, text.length(), textRect);
+
+        Canvas canvas = new Canvas(bm);
+       // canvas.drawText(text, 0, paint.getTextBounds(text, 0, text.length(), textRect), paint);
+
+        //If the text is bigger than the canvas , reduce the font size
+        if(textRect.width() >= (canvas.getWidth() - 4))     //the padding on either sides is considered as 4, so as to appropriately fit in the text
+            paint.setTextSize(convertToPixels(this, 7));        //Scaling needs to be used for different dpi's
+
+        //Calculate the positions
+        int xPos = (canvas.getWidth() / 2) - 2;     //-2 is for regulating the x position offset
+
+        //"- ((paint.descent() + paint.ascent()) / 2)" is the distance from the baseline to the center.
+        int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2)) ;
+
+        canvas.drawText(text, xPos, yPos, paint);
+
+        return  bm;
+    }
+
+
+
+    /*
+       To create image-marker of employee position in map
+     */
+    public static int convertToPixels(Context context, int nDP)
+    {
+        final float conversionScale = context.getResources().getDisplayMetrics().density;
+
+        return (int) ((nDP * conversionScale) + 0.5f) ;
+
+    }
+
+
+
+    // Menu icons are inflated just as they were with actionbar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_user_map, menu);
+
+
+        itemSpy = menu.findItem(R.id.spy_for_employee);
+
+        itemStop = menu.findItem(R.id.stop_spy);
+
+        itemRefresh = menu.findItem(R.id.myRefreshMap);
+                itemHelp = menu.findItem(R.id.study);
+
+        itemSpy.setVisible(false);
+        itemStop.setVisible(false);
+        itemRefresh.setVisible(false);
+        itemHelp.setVisible(false);
+
+
+      //  setSpyOrStopItem();
+
+        return true;
+    }
+
+
+    /**
+     * Manipulates the map once available.
+     * This callback is triggered when the map is ready to be used.
+     * This is where we can add markers or lines, add listeners or move the camera. In this case,
+     * we just add a marker near Sydney, Australia.
+     * If Google Play services is not installed on the device, the user will be prompted to install
+     * it inside the SupportMapFragment. This method will only be triggered once the user has
+     * installed Google Play services and returned to the app.
+     */
+
+
+    /*
+        Listener for item in toolbar
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+
+            case android.R.id.home:
+
+              //  if (  !isEndOfDemoStudy)
+
+                //  NavUtils.navigateUpFromSameTask(this);
+
+                //SharedPreferences sp = getSharedPreferences(MessageConstant.MANAGER_INFO, MODE_PRIVATE);
+
+              if(sp.getBoolean( "active", false) == false) {
+                  Intent cabinetManagerAct = new Intent(this, ManagerCabinetListActivity.class );
+                  finish();
+                  startActivity(cabinetManagerAct );
+
+              }else {
+
+                //only finish
+                  finish();
+              }
+
+                return true;
+
+            //<!---14:00 17june16
+            //TODO_d+: 1-------
+            //TODO_d+6min: set on item stopSpying
+            //TODO_d+in38min: set task to set status off spy in shared preference
+            // public static final String STATUS_SPY_VIEW = "statusSPyView";
+            //TODO_d+: 2------
+            //TODO_d+35min: also make request to destroy service spy in employee
+            case R.id.stop_spy:
+                //for win under bug during demonstrate tips
+              // if(!isEndOfDemoStudy)return true;
+
+
+
+                //<!-- 11:43 07 jule
+                //TODO_done_all_from3h>>5*---*
+                //TODO_done_task_from30min delete old circle from shared_prefer
+                //TODO_done task_from30min and set marker-circle for new spy
+
+               if (oldCircle!=null) {
+                   oldCircle.remove();
+
+                   LatLng objectPosition = mMap.getCameraPosition().target;
+                   marker.setPosition(objectPosition);
+                   circleAreaMarker.setCenter(objectPosition);
+               }
+
+
+                //-->>>5
+
+                editor = this.getSharedPreferences(MessageConstant.STATUS_SPY_VIEW , this.MODE_PRIVATE).edit();
+                editor.putInt(employeeSelected, MessageConstant.NO_SPY  );
+                //end  commit
+                editor.commit();
+
+                ManagerCabinetListActivity.flagNewRequest = true;
+
+                new AsynTaskForManager(this, user.getLong("mamagerId"), employeeSelected ,AsynTaskForManagerEnum.STOP_SPY).execute();
+                // your action goes here
+
+                //change items in toolbar
+                itemSpy.setVisible(true);
+                itemStop.setVisible(false);
+
+                return true;
+            //-->
+
+            case R.id.spy_for_employee:
+                //for win under bug during demonstrate tips
+
+               /*
+                settings = getSharedPreferences(PREFS_NAME, 0);
+                boolean status =  settings.getBoolean("my_first_time", true);
+                if(!isEndOfDemoStudy&status)return true;
+                */
+
+                //<!-- 07 jule 16
+                //TODO_aborted>> 8
+                //TODO_aborted check if we get employee location flag
+                    //TODO_aborted if not -> return;
+
+                if (30 > circleAreaMarker.getRadius())  {
+
+                    Toast.makeText(getApplicationContext(),"The enter value of radius must be larger than 30 m!", Toast.LENGTH_SHORT).show();
+                   // getRadius.setText("");
+
+                   return true;
+
+                }
+
+                //if not show toast
+
+                /*if (getRadiusFromField ()){
+
+                    //Toast.makeText(getApplicationContext(),"Enter radius, ", Toast.LENGTH_SHORT).show();
+
+                }*/
+
+                //-->
+
+                circleLabel = new CircleLabel();
+
+                circleLabel.setLatitude( circleAreaMarker.getCenter().latitude);
+                circleLabel.setLongitude( circleAreaMarker.getCenter().longitude);
+                circleLabel.setRadius( circleAreaMarker.getRadius());
+
+
+
+                //#matrix reload matrix reload//#matrix reload matrix reload//#matrix reload matrix reload
+        /*
+
+                if (checkEmail()) return;
+                //createSpyMessage();
+                */
+                //<-----TO_DO_LIST         _{+}_
+                //make request SPY
+                //but get email from made choice of manager, when he opened  the map for chosen employee from recyclerList.
+                // //#URGENTLY
+
+                //<!---23june 14:40
+                //TODO_aborted >>1
+                //TODO_aborted set new status of spy if geofence sping
+
+                //-->
+
+
+                new AsynTaskForManager(this,user.getLong("mamagerId"),fillEmails(), createSpyMessage(), AsynTaskForManagerEnum.SPY).execute();
+            //<---
+
+            // your action goes here
+
+                itemSpy.setVisible(false);
+                itemStop.setVisible(true);
+                return true;
+
+            case R.id.myRefreshMap:
+                //for win under bug during demonstrate tips
+                  //  if ( !isEndOfDemoStudy)return true;
+
+                //_!_problem is when Activity created from notification we put nothing in Intent
+
+                //if (checkEmail()) return;
+                //createSpyMessage();
+                new AsynTaskForManager(this, user.getLong("mamagerId"), employeeSelected ,AsynTaskForManagerEnum.GET_LOCATION).execute();
+                return true;
+
+            //<!--1jule16 10:14
+            //TODO_aborted 1>>
+            //TODO_aborted set help item
+            //TODO_aborted set view - click tip help with listener
+            //TODO_aborted after click item view became enable & then disable
+
+
+            case R.id.study:
+                //if(!isEndOfDemoStudy)return true;
+                showTips();
+
+                return true;
+
+
+            //my little cheate
+            case R.id.forDebug:
+
+                //TODO_done create debug
+                settings = getSharedPreferences(PREFS_NAME, 0);
+                settings.edit().putBoolean("my_first_time", true).commit();
+                return true;
+
+
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    /*
+    private boolean getRadiusFromField (){
+
+        String textRadius =  getRadius.getText().toString();
+
+        if (textRadius.matches(""))return false;
+
+        getIntRadius = Integer.parseInt(textRadius);
+        return true;
+
+    }*/
+
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+
+        mMap = map;
+        //get our location
+        map.setMyLocationEnabled(true);
+        // set marker (will be a center to circle)
+       // Log.v(TAG, "employeeLocation.isHere"+employeeLocation.isHere() );
+
+        //get position of employee from notification
+        //int a;
+        if(openMapFrom == MessageConstant.FROM_NOTIFICATION){
+
+            setCircleAndEmployeeMarker(map);
+        }else {
+
+
+
+            if (getStatus () != MessageConstant.NO_SPY)
+            {
+
+                CircleLabel circleLabel = getCircleLabel ();
+
+
+               // public static int parseColor (String colorString)
+                oldCircle  = map.addCircle(new CircleOptions()
+                        .radius(circleLabel.getRadius())
+                        .center(new LatLng(circleLabel.getLatitude(), circleLabel.getLongitude()))
+                        .strokeColor(Color.BLACK)
+
+                        // Fill color of the circle
+                        // 0x represents, this is an hexadecimal code
+                        // 55 represents percentage of transparency. For 100% transparency, specify 00.
+                        // For 0% transparency ( ie, opaque ) , specify ff
+                        // The remaining 6 characters(00ff00) specify the fill color
+
+                        //TODO set green
+                        .fillColor(ContextCompat.getColor(this, R.color.outside_color_pink))
+                        // Border width of the circle
+                        .strokeWidth(2));
+
+
+            }
+
+            //  emailFrom = employeeLocation.getEmployeeEmail();
+            //  editor = context.getSharedPreferences(MessageConstant.STATUS_SPY_VIEW , context.MODE_PRIVATE).edit();
+
+            // editor.commit();
+            // editor.putInt(emailFrom, MessageConstant.EXIT_CIRCLE  );
+
+            //  editor.commit();
+
+
+            //-->
+
+
+        }
+
+
+       setDraggableMapAndCircle (map);
+
+        new AsynTaskForManager(this, user.getLong("mamagerId"),employeeSelected ,AsynTaskForManagerEnum.GET_LOCATION).execute();
+    }
+
+
+   /*
+      For getting data about employee circle from memory during spying
+    */
+    private CircleLabel getCircleLabel (){
+
+        CircleLabel circleLabelForDraw = new CircleLabel();
+
+        //<!---13:54 22june16
+        //TODO_d+from4h 22june 19:00: 2>>
+        //TODO_d+from3:30h check status spy from shared preference
+        //TODO_d+from3:30h: if status not equals no_SPY - set circle
+
+
+        shared = getSharedPreferences(MessageConstant.STATUS_SPY_VIEW,MODE_PRIVATE);
+        shared.getInt( employeeSelected, MessageConstant.NO_SPY);
+
+        shared = getSharedPreferences(MessageConstant.CIRCLE_LOCATION,MODE_PRIVATE);
+        //Using getXXX- with XX is type date you wrote to file "name_file"
+        circleLabelForDraw.setLatitude(Double.longBitsToDouble(shared.getLong(MessageConstant.CIRCLE_LATITUDE, 0))) ;
+        circleLabelForDraw.setLongitude(Double.longBitsToDouble(shared.getLong(MessageConstant.CIRCLE_LONGITUDE, 0)));
+        circleLabelForDraw.setRadius(Double.longBitsToDouble(shared.getLong(MessageConstant.CIRCLE_RADIUS, 0))); ;
+
+        return circleLabelForDraw;
+
+    }
+
+
+
+   /*
+   To detect status of app work is it spy for employee or not
+    */
+    private int getStatus (){
+        shared = getSharedPreferences(MessageConstant.STATUS_SPY_VIEW,MODE_PRIVATE);
+       int statusSpy = shared.getInt( employeeSelected, MessageConstant.NO_SPY);
+        return statusSpy;
+    }
+
+
+
+    /*
+       Set circle for spying in begin of spy
+     */
+    private void setDraggableMapAndCircle (GoogleMap map){
+
+        marker = map.addMarker(new MarkerOptions()
+                .position(new LatLng(0, 0))
+                .draggable(true)
+
+        );
+        // draw circle on map
+        //
+        circleAreaMarker = map.addCircle(new CircleOptions()
+                .center(new LatLng(0, 0))
+                .radius( START_RADIUS_VALUE)
+                .strokeColor(Color.BLACK)
+
+                // Fill color of the circle
+                // 0x represents, this is an hexadecimal code
+                // 55 represents percentage of transparency. For 100% transparency, specify 00.
+                // For 0% transparency ( ie, opaque ) , specify ff
+                // The remaining 6 characters(00ff00) specify the fill color
+                //TODO set color
+
+                .fillColor(ContextCompat.getColor(this, R.color.outside_color_pink))
+
+                // Border width of the circle
+                .strokeWidth(2)
+        );
+
+
+        //circle.setOn
+
+
+        // map click listener
+        map.setOnMapClickListener(this);
+
+        map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+
+            public boolean onMarkerClick(Marker marker) {
+                onMapClick(marker.getPosition());
+                return true;
+            }
+        });
+
+
+    }
+
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        marker.setPosition(latLng);
+        circleAreaMarker.setCenter(latLng);
+        if (tips){
+            findViewById(R.id.tipMapImageFinger).setVisibility(View.INVISIBLE);
+          //  findViewById(R.id.tipsMapTextFinger).setVisibility(View.INVISIBLE);
+            findViewById( R.id.tipArrowImageFinger).setVisibility(View.INVISIBLE);
+
+            tips = false;
+
+        }
+
+    }
+
+
+/*
+
+  This method work when open map from notification obout employee if he exit the circle, or entered in circle
+ */
+    private void setCircleAndEmployeeMarker(GoogleMap map){
+
+        oldCircle  = map.addCircle(new CircleOptions()
+                .radius(employeeLocation.getRadius())
+                .center(new LatLng(employeeLocation.getCircle1latitude(), employeeLocation.getCircleLongitude()))
+                .strokeColor(Color.BLACK)
+
+                // Fill color of the circle
+                // 0x represents, this is an hexadecimal code
+                // 55 represents percentage of transparency. For 100% transparency, specify 00.
+                // For 0% transparency ( ie, opaque ) , specify ff
+                // The remaining 6 characters(00ff00) specify the fill color
+                //.fillColor(0x64bbc5)
+                . fillColor(ContextCompat.getColor(this, R.color.outside_color_pink))
+                // Border width of the circle
+                .strokeWidth(2));
+        //  Log.v(TAG, "location"+employeeLocation.latitude+"/"+employeeLocation.longitude);
+        // mMarker = mMap.addMarker(markerEmployeeLoc.position(new LatLng(latitude, longitude)).title(employeeSelected));
+        markerEmployee = map.addMarker( new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromBitmap(writeTextOnDrawable(R.mipmap.foot, "" )))
+                .position(new LatLng(employeeLocation.getEmployeeLatitude(), employeeLocation.getEmployeeLongitude())).title(employeeSelected+ " crossed area here." )
+        );
+
+        //camera
+
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target( markerEmployee.getPosition())
+                //.zoom(map.getCameraPosition().zoom)
+                .zoom(17)
+                //.bearing(targetBearing)
+                //.tilt(20)
+                .build();
+
+        // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mMarker.getPosition(), 14));
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
+        map.animateCamera(cameraUpdate);
+
+
+
+
+    }
+
+
+    @Override
+    public void onBackPressed()
+    {
+
+        if(sp.getBoolean( "active", false) == false) {
+            Intent cabinetManagerAct = new Intent(this, ManagerCabinetListActivity.class );
+            finish();
+            startActivity(cabinetManagerAct );
+
+        }else {
+
+            //only finish
+            finish();
+        }
+
+
+
+
+    }
+
+
+    /*
+    *
+    *
+    * */
+
+    /*
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+
+           // case android.R.id.button1:
+
+              /*
+                if (!visibleBar) {
+
+               seekBar.setVisibility(View.VISIBLE);
+
+
+                textView.setVisibility(View.VISIBLE );
+
+                    visibleBar = true;
+
+
+
+                }
+                else {
+
+                    seekBar.setVisibility(View.GONE);
+
+
+                    textView.setVisibility(View.GONE );
+                    visibleBar = false;
+
+                }
+
+                break;
+                */
+
+            //matrix reload //matrix reload //matrix reload
+            //spy button
+
+            /*
+            case R.id.resetbtn:
+
+                circleLabel.latitude = circle.getCenter().latitude;
+                circleLabel.longitude= circle.getCenter().longitude;
+                circleLabel.radius = circle.getRadius();
+
+                //#matrix reload matrix reload//#matrix reload matrix reload//#matrix reload matrix reload
+        /*
+
+                if (checkEmail()) return;
+                //createSpyMessage();
+                */
+
+
+                //make request SPY
+                //but get email from made choice of manager, when he opened  the map for chosen employee from recyclerList.
+                // //#URGENTLY
+
+            //matrix reload //matrix reload //matrix reload
+            /*
+                new AsynTaskForManager(this,user.getLong("mamagerId"),fillEmails(), createSpyMessage(), AsynTaskForManagerEnum.SPY).execute();
+                break;
+
+
+            //<---
+            */
+
+
+         /*  case R.id.gButton:
+
+                //_!_problem is when Activity created from notification we put nothing in Intent
+
+                //if (checkEmail()) return;
+                //createSpyMessage();
+                new AsynTaskForManager(this, user.getLong("mamagerId"), employeeSelected ,AsynTaskForManagerEnum.GET_LOCATION).execute();
+                break;
+           */
+
+                /*
+                if (radius.getText().toString().matches("")){
+                    circle.setRadius(1);
+                    circleLabel.latitude = circle.getCenter().latitude;
+                    circleLabel.longitude= circle.getCenter().longitude;
+                    circleLabel.radius = circle.getRadius();
+                    if (checkEmail()) return;
+                    //createSpyMessage();
+                    new AsynTaskForManager(this,user.getLong("mamagerId"),fillEmails(), createSpyMessage(),AsynTaskForManagerEnum.SPY).execute();
+
+                }
+                else {
+                    circle.setRadius(Integer.parseInt(radius.getText().toString()));
+                    circleLabel.latitude = circle.getCenter().latitude;
+                    circleLabel.longitude= circle.getCenter().longitude;
+                    circleLabel.radius = circle.getRadius();
+                    if (checkEmail()) return;
+                   // createSpyMessage();
+
+                    new AsynTaskForManager(this,user.getLong("mamagerId"),fillEmails(), createSpyMessage(),AsynTaskForManagerEnum.SPY).execute();
+
+
+                }
+                */ /*
+        }
+    }
+*/
+
+
+    /*
+    *    Working with BroadcastReceiver for interactive getting marker with employee location
+    *
+     */
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //updateDate(intent);
+            String action = intent.getAction();
+            if(action.equals(MessageAgent.BROADCAST_ACTION)){
+                latitude = intent.getExtras().getDouble("latitude");
+                longitude = intent.getExtras().getDouble("longitude");
+            }
+
+            setUpMap();
+        }
+    };
+
+
+   //get data location from brodcasr receiver
+    private void setUpMap()
+    {
+
+
+        if(mMarker!=null)mMarker.remove();
+        /*if(this.googleMap != null) {
+            MarkerOptions marker = new MarkerOptions(...);
+            this.googleMap.addMarker(marker);
+        }*/
+        Log.d("SERVICE_AA", "onStartCommandkkkk");
+        //Marker mMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(22.7253, 75.8655)).title("Indore"));
+
+
+        //<!---19:44 17june16
+        //TODO_done+:1-----
+        //TODO_done+: set another view of marker
+        //TODO_done+: also delete old marker
+
+         mMarker = mMap.addMarker(markerEmployeeLoc.position(new LatLng(latitude, longitude)).title(employeeSelected));
+        // here is marker Adding code
+
+
+        //-->
+
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(new LatLng(latitude  , longitude))
+                //.zoom(mMap.getCameraPosition().zoom)
+                .zoom(17)
+                //.bearing(targetBearing)
+                        //.tilt(20)
+                .build();
+
+       // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mMarker.getPosition(), 14));
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
+        mMap.animateCamera(cameraUpdate);
+
+
+
+
+       //<!--11:40 07 jule 16
+        /*
+               CIRCLE MARKER for set area for employee
+         */
+        //TODO_done_all_from3h>>4*---*
+        //TODO_done: check before status flag isSpy
+        //TODO_done if status true do not sow circle marker
+        //TODO_done if status false af course show it
+        //set circular area new employee marker
+
+
+        //settings = getSharedPreferences(PREFS_NAME, 0);
+
+      // if  getStatus ()
+       // if (getStatus () == MessageConstant.NO_SPY){
+
+        /*
+        if ((MessageConstant.NO_SPY ==getStatus ())&firstTime) {
+            marker.setPosition(new LatLng(latitude, longitude));
+            circleAreaMarker.setCenter(new LatLng(latitude, longitude));
+            firstTime = false;
+        }*/
+        //set some tips view about clicking for move circular area
+        //-->
+
+
+        //<!--- 05.07.16 11:44
+        //TODO_aborted>>2
+        //TODO_aborted set to boolean flag getEPosition = true
+        //-->
+
+        getRadius.setVisibility(View.VISIBLE);
+        inputLayoutName.setVisibility(View.VISIBLE);
+
+       // getRadius.setCursorVisible(false);
+      //  getRadius.setEnabled(false);
+
+      // getRadius.setBackgroundColor( getResources().getColor(R.color.icons));
+        // findViewById(R.id.textSetRadiusMap).setVisibility(View.VISIBLE);
+       // labelSetRadius.setVisibility(View.VISIBLE);
+       // labelSetRadius.setBackgroundColor(getResources().getColor(R.color.icons));
+        //root.setBackgroundColor(getResources().getColor(color.white));
+
+
+
+       //<!---11:24 07jule16
+        //TODO_done_all_from3h >>2*-----*
+        //TODO_done: before show tips
+        //TODO_done: check flags in shared preference is it first time
+        //TODO_done and other flag tips started
+        settings = getSharedPreferences(PREFS_NAME, 0);
+
+        if (settings.getBoolean("my_first_time", true)&&!isTipStarted) {
+
+            //-->
+            marker.setPosition(new LatLng(latitude, longitude));
+            circleAreaMarker.setCenter(new LatLng(latitude, longitude));
+            showTips();
+
+        }else {
+         //   isEndOfDemoStudy = true;
+           // itemSpy.setVisible(true);
+           // itemStop.setVisible(true);
+            itemRefresh.setVisible(true);
+            itemHelp.setVisible(true);
+            setSpyOrStopItem();
+            if (!isSpy&firstTime) {
+                marker.setPosition(new LatLng(latitude, longitude));
+                circleAreaMarker.setCenter(new LatLng(latitude, longitude));
+                firstTime = false;
+            }
+
+
+        }
+
+
+
+    }
+
+
+   /*
+       In first time open map app demonstrate study tips show
+    */
+
+    private void showTips (){
+
+
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+
+                /*
+                  Befor show tips make some preparation
+
+                 */
+                itemSpy.setVisible(false);
+                itemStop.setVisible(false);
+                itemRefresh.setVisible(false);
+                itemHelp.setVisible(false);
+
+                //set our flags
+                tips = true;
+                isTipStarted = true;
+              //  isEndOfDemoStudy = false;
+
+                //set invisible some interface elements for better sowing our tips
+                employeeNameText.setVisibility(View.INVISIBLE);
+                findViewById(R.id.inputRadius).setVisibility(View.INVISIBLE);
+                findViewById(R.id.input_layout_name_for_radius).setVisibility(View.INVISIBLE);
+
+                //showing tips image
+                findViewById(R.id.tipMapImageFinger).setVisibility(View.VISIBLE);
+                // TextView txt =(TextView) findViewById(R.id.tipsMapTextFinger);
+                //  txt.setVisibility(View.VISIBLE);
+                findViewById( R.id.tipArrowImageFinger).setVisibility(View.VISIBLE);
+                //  txt.setBackgroundColor(Color.GRAY);
+
+               //move camera for better sowing our tis
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                        .target(new LatLng(latitude + SOME_VERTICAL_DISTANCE , longitude + SOME_HORIZONTAL_DISTANCE))
+                        //.zoom(mMap.getCameraPosition().zoom)
+                        .zoom(17)
+                        //.bearing(targetBearing)
+                        //.tilt(20)
+                        .build();
+
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
+                mMap.animateCamera(cameraUpdate);
+
+
+
+
+
+
+
+                //<!-- 07 jule16
+                //TODO_aborted >>7
+                //TODO_aborted create easy dialog before
+
+                //-->
+
+                //TODO_in process create tips box
+
+                /*
+                new ShowcaseView.Builder(UserMapsActivity.this)
+                        .setTarget(new ViewTarget(R.id.tipMapImageFinger, UserMapsActivity.this))
+                        .setContentTitle(R.string.title_single_shot)
+                        .setContentText(R.string.R_string_desc_single_shot)
+                        .singleShot(42)
+                        .build();*/
+
+
+
+               /* //set tip dialog
+                new ShowcaseView.Builder(UserMapsActivity.this)
+                        .withMaterialShowcase()
+                        .setTarget(new ViewTarget(R.id.tipMapImageFinger, UserMapsActivity.this))
+                        .setStyle(R.style.CustomShowcaseTheme3)
+                        .setContentText("Here's how to highlight items on a toolbar")
+                        .build()
+                        .show();*/
+
+              /*
+                  Begin demonstrate our tips show
+
+               */
+
+                TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+                paint.setTextSize(getResources().getDimension(R.dimen.abc_text_size_large_material));
+                //paint.setStrikeThruText(true);
+                //paint.setColor(Color.RED);
+             //   paint.setTypeface(Typeface.createFromAsset(getAssets(), "RobotoSlab-Regular.ttf"));
+
+                TextPaint title = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+                title.setTextSize(getResources().getDimension(R.dimen.abc_text_size_display_1_material));
+                title.setUnderlineText(true);
+               // title.setColor(Color.YELLOW);
+               // title.setTypeface(Typeface.createFromAsset(getAssets(), "RobotoSlab-Regular.ttf"));
+
+             //   MultiEventListener multiEventListener = new MultiEventListener(new LogToTextListener(eventLog), new ShakeButtonListener(customButton));
+
+                ShowcaseView showcaseView = new ShowcaseView.Builder(UserMapsActivity.this)
+                        .withNewStyleShowcase()
+                        .setTarget(new ViewTarget(R.id.tipMapImageFinger, UserMapsActivity.this))
+                        .setContentTextPaint(paint)
+                        .setContentTitle(R.string.title_single_shot)
+                        .setContentText(R.string.R_string_desc_single_shot)
+                        .setContentTitlePaint(title)
+                        .setStyle(R.style.CustomShowcaseTheme3)
+                       // .singleShot(42)
+                        .setShowcaseEventListener(new FirstTipHideListener(UserMapsActivity.this))
+                        .build();
+
+                showcaseView.setDetailTextAlignment(Layout.Alignment.ALIGN_CENTER);
+                showcaseView.setTitleTextAlignment(Layout.Alignment.ALIGN_CENTER);
+                showcaseView.forceTextPosition(ShowcaseView.ABOVE_SHOWCASE);
+
+
+
+                // Actions to do after 10 seconds
+            }
+        }, 3000);
+
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        registerReceiver(broadcastReceiver, new IntentFilter(
+                MessageAgent.BROADCAST_ACTION));
+    }
+
+    /*
+    *    Working with map
+    *
+     */
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+
+    public void onConnectionFailed(ConnectionResult arg0){
+
+    }
+
+
+    public void onConnected(Bundle bundle){
+        Toast.makeText(getApplicationContext(),"connected", Toast.LENGTH_SHORT).show();
+     //   LocationServices.FusedLocationApi.requestLocationUpdates(
+      //          mGoogleApiClient, mLocationRequest, this);
+
+
+
+        mCurrentLocation = LocationServices
+                .FusedLocationApi
+                .getLastLocation( mGoogleApiClient );
+
+
+        // if(markerMyLoc!=null)markerMyLoc.remove();
+
+        //   markerMyLoc = mMap.addMarker(myLocation.position(new LatLng(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude())).title("I'm"));
+        // here is marker Adding code
+
+
+        //-->
+       // LatLng latLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+
+       /*
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(latLng )
+                //.zoom(mMap.getCameraPosition().zoom)
+                .zoom(17)
+                //.bearing(targetBearing)
+                //.tilt(20)
+                .build();
+
+        // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mMarker.getPosition(), 14));
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
+        mMap.animateCamera(cameraUpdate);
+        */
+
+
+    }
+
+
+    public void onConnectionSuspended(int arg0){
+
+    }
+
+    /*
+    *   Help methods for make spy request from manager map activity
+    *
+    */
+    private ArrayList<String> fillEmails() {
+
+
+        //matrix reload matrix reload//matrix reload matrix reload//matrix reload matrix reload
+        /*
+        ArrayList<String> listStrEmplEmail = new ArrayList<>();
+        listStrEmplEmail.add(employeeEmailStr);// employeeEmailStr
+        return listStrEmplEmail;
+        */
+        //matrix reload matrix reload//matrix reload matrix reload//matrix reload matrix reload
+
+        //<-----TO_DO_LIST                        _{+}_
+        //make request SPY
+        //but get email from made choice of manager, when he opened  the map for chosen employee from recyclerList.
+        // //#URGENTLY
+
+        ArrayList<String> listStrEmplEmail = new ArrayList<>();
+        listStrEmplEmail.add(employeeSelected);// employeeEmailStr
+        return listStrEmplEmail;
+
+
+        //<-----
+
+    }
+
+    /*
+    private boolean checkEmail (){
+        employeeEmailStr = spyEmployeeEmail.getText().toString();
+        if (employeeEmailStr.matches("")){
+            Toast.makeText(this, "Enter manager email!", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        return false;
+
+    }
+       */
+
+    private String createSpyMessage (){
+
+        createSpyMessage = new CreateSpyMessage(circleLabel,"@Manager");
+        String SPYmessage = createSpyMessage.getSpyMessage();
+        return SPYmessage;
+    }
+
+
+
+    /*
+        Class for help to demonstrate tips study show
+     */
+    public class FirstTipHideListener implements OnShowcaseEventListener {
+
+
+
+
+
+        private Context context;
+
+        FirstTipHideListener (Context context) {
+            this.context = context;
+
+        }
+
+
+
+        @Override
+        public void onShowcaseViewHide(ShowcaseView showcaseView) {
+
+            //  Toast.makeText(context,"Showcase hiding", Toast.LENGTH_SHORT).show();
+
+
+
+            employeeNameText.setVisibility(View.VISIBLE);
+            findViewById(R.id.inputRadius).setVisibility(View.VISIBLE);
+            findViewById(R.id.input_layout_name_for_radius).setVisibility(View.VISIBLE);
+            showNextTip ();
+
+
+        }
+
+
+        private void showNextTip (){
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run() {
+
+
+
+
+
+
+                    //int[] location = new int[2];
+                    //View myActionView = findViewById(R.id.spy_for_employee);
+                  //  View myActionViewFinger = findViewById(R.id.tipMapImageFinger);
+
+        /*
+        View myActionView = findViewById(R.id.spy_for_employee);
+        if (myActionView != null) {
+            //int[] location = new int[2];
+            myActionView.getLocationOnScreen(location);
+
+            int x = location[0];
+            int y = location[1];
+            Log.d(TAG, "menu item location --> " + x + "," + y);
+        }*/
+
+
+       /* new EasyDialog(UserMapsActivity.this)
+                .setLayoutResourceId(R.layout.layout_map_tip_image_text)
+                .setGravity(EasyDialog.GRAVITY_BOTTOM)
+                .setBackgroundColor(UserMapsActivity.this.getResources().getColor(R.color.background_color_brown))
+                .setLocationByAttachedView(myActionView)
+                .setAnimationTranslationShow(EasyDialog.DIRECTION_Y, 1000, 800, -100, -50, 50, 0)
+                .setAnimationTranslationDismiss(EasyDialog.DIRECTION_Y, 500, 0, 800)
+                .setAnimationAlphaShow(1000, 0.3f, 1.0f)
+               // .setTouchOutsideDismiss(true)
+                .setMatchParent(true)
+                .setMarginLeftAndRight(24, 24)
+                .setOutsideColor(UserMapsActivity.this.getResources().getColor(R.color.outside_color_gray))
+                .show();
+                */
+
+                    /*
+                    new EasyDialog(context)
+                            .setLayoutResourceId(R.layout.layout_map_tip_image_text)
+                            .setGravity(EasyDialog.GRAVITY_BOTTOM)
+                            .setBackgroundColor(context.getResources().getColor(R.color.background_color_blue))
+                            .setLocationByAttachedView(myActionView )
+                            .setAnimationTranslationShow(EasyDialog.DIRECTION_Y, 1000, -800, 100, -50, 50, 0)
+                            .setAnimationTranslationDismiss(EasyDialog.DIRECTION_Y, 500, 0, -800)
+                            .setGravity(EasyDialog.GRAVITY_BOTTOM)
+                            .setTouchOutsideDismiss(true)//убрать клики снаружи
+                            .setMatchParent(false)
+                            .setMarginLeftAndRight(24, 24)
+                            .setOutsideColor(context.getResources().getColor(R.color.background_color_pink_dark))
+
+                            .setOnEasyDialogDismissed(new EasyDialog.OnEasyDialogDismissed()
+                            {
+                                @Override
+                                public void onDismissed()
+                                {
+
+
+                                    // onMapClick( );
+
+                                }
+                            })
+                            .show();
+                    */
+
+
+
+                    TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+                    paint.setTextSize(getResources().getDimension(R.dimen.abc_text_size_large_material));
+                    //paint.setStrikeThruText(true);
+                    //paint.setColor(Color.RED);
+                    //   paint.setTypeface(Typeface.createFromAsset(getAssets(), "RobotoSlab-Regular.ttf"));
+
+                    TextPaint title = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+                    title.setTextSize(getResources().getDimension(R.dimen.abc_text_size_display_1_material));
+                    title.setUnderlineText(true);
+
+
+                    ShowcaseView showcaseView = new ShowcaseView.Builder(UserMapsActivity.this)
+                            .withNewStyleShowcase()
+                            .setTarget(new ViewTarget(R.id.inputRadius, UserMapsActivity.this))
+                            .setContentTextPaint(paint)
+                            .setContentTitle(R.string.title_for_set_radius_tip)
+                            .setContentText(R.string.single_shot_for_set_radius_tip)
+                            .setContentTitlePaint(title)
+                            .setStyle(R.style.CustomShowcaseTheme3)
+                            // .singleShot(42)
+                            .setShowcaseEventListener(new  OnShowcaseEventListener (){
+                                @Override
+                                public void onShowcaseViewHide(ShowcaseView showcaseView) {
+
+                                }
+
+                                @Override
+                                public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+
+                                    showLastTip ();
+
+
+                                }
+
+                                @Override
+                                public void onShowcaseViewShow(ShowcaseView showcaseView) {
+
+                                }
+
+                                @Override
+                                public void onShowcaseViewTouchBlocked(MotionEvent motionEvent) {
+
+                                }
+                            })
+                            .build();
+
+                    showcaseView.setDetailTextAlignment(Layout.Alignment.ALIGN_CENTER);
+                    showcaseView.setTitleTextAlignment(Layout.Alignment.ALIGN_CENTER);
+                    showcaseView.forceTextPosition(ShowcaseView.BELOW_SHOWCASE);
+
+
+
+
+
+                }
+            }, 1000);
+
+
+        }
+
+
+
+        private void showLastTip () {
+
+
+
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    ViewTarget viewTarget;
+                    int titleStr = 0, text = 0;
+
+
+                   if(setSpyOrStopItem()){
+
+                       viewTarget=  new ViewTarget(R.id.stop_spy, UserMapsActivity.this);
+
+                     //  titleStr=  R.string.title_for_stop_spy;
+
+                      // text = R.string.single_shot_for_stop_spy;
+                   }else{
+
+                       viewTarget= new ViewTarget(R.id.spy_for_employee, UserMapsActivity.this);
+
+                      // titleStr=  R.string.title_for_begin_spy;
+
+                     // text = R.string.single_shot_for_begin_spy;
+
+
+
+                   }
+
+
+
+
+
+
+                    //<!--- 11:47 07 jule 16
+                    ///TODO_done_all_from3h >>6*---*
+                    //TODO_done 6task from 1h  set showCast View  instead of easy dialog
+
+                    TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+                    paint.setTextSize(getResources().getDimension(R.dimen.abc_text_size_large_material));
+                    //paint.setStrikeThruText(true);
+                    //paint.setColor(Color.RED);
+                    //   paint.setTypeface(Typeface.createFromAsset(getAssets(), "RobotoSlab-Regular.ttf"));
+
+                    TextPaint title = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+                    title.setTextSize(getResources().getDimension(R.dimen.abc_text_size_display_1_material));
+                    title.setUnderlineText(true);
+
+
+                    ShowcaseView showcaseView = new ShowcaseView.Builder(UserMapsActivity.this)
+                            .withNewStyleShowcase()
+                            .setTarget(viewTarget )
+                            .setContentTextPaint(paint)
+                            .setContentTitle(R.string.title_for_begin_spy )
+                            .setContentText( R.string.single_shot_for_begin_spy)
+                            .setContentTitlePaint(title)
+                            .setStyle(R.style.CustomShowcaseTheme3)
+                            // .singleShot(42)
+                            .setShowcaseEventListener(new  OnShowcaseEventListener (){
+                                @Override
+                                public void onShowcaseViewHide(ShowcaseView showcaseView) {
+
+                                }
+
+                                @Override
+                                public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+
+                                   // showLastTip ();
+                                 //   isEndOfDemoStudy = true;
+                                    itemRefresh.setVisible(true);
+                                    itemHelp.setVisible(true);
+                                    //safeFlagFirstTimeEnd ();
+
+                                    Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        public void run() {
+
+
+                                           // showSimpleTip ();
+
+                                            // Actions to do after 10 seconds
+                                        }
+                                    }, 1000);
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                }
+
+
+
+                              /*  private void showSimpleTip (){
+
+                                    View myActionView = itemRefresh.getActionView();
+                                    new EasyDialog(context)
+                                            .setLayoutResourceId(R.layout.layout_map_tip_image_text)
+                                            .setGravity(EasyDialog.GRAVITY_BOTTOM)
+                                            .setBackgroundColor(context.getResources().getColor(R.color.background_color_blue))
+                                            .setLocationByAttachedView(myActionView )
+                                            .setAnimationTranslationShow(EasyDialog.DIRECTION_Y, 1000, -800, 100, -50, 50, 0)
+                                            .setAnimationTranslationDismiss(EasyDialog.DIRECTION_Y, 500, 0, -800)
+
+                                            .setTouchOutsideDismiss(true)//убрать клики снаружи
+                                            .setMatchParent(true)
+                                            .setMarginLeftAndRight(24, 24)
+                                            .setOutsideColor(context.getResources().getColor(R.color.background_color_pink_dark))
+
+                                            .setOnEasyDialogDismissed(new EasyDialog.OnEasyDialogDismissed()
+                                            {
+                                                @Override
+                                                public void onDismissed()
+                                                {
+
+
+                                                    // onMapClick( );
+
+                                                }
+                                            })
+                                            .show();
+
+
+
+                                }*/
+
+                                @Override
+                                public void onShowcaseViewShow(ShowcaseView showcaseView) {
+
+                                }
+
+                                @Override
+                                public void onShowcaseViewTouchBlocked(MotionEvent motionEvent) {
+
+                                }
+                            })
+                            .build();
+
+                    showcaseView.setDetailTextAlignment(Layout.Alignment.ALIGN_CENTER);
+                    showcaseView.setTitleTextAlignment(Layout.Alignment.ALIGN_CENTER);
+                    showcaseView.forceTextPosition(ShowcaseView.BELOW_SHOWCASE);
+
+
+
+
+                    //-->>>6
+
+
+                   /*
+                    View myActionView = findViewById(R.id.spy_for_employee);
+                    new EasyDialog(context)
+                            .setLayoutResourceId(R.layout.layout_map_tip_image_text)
+                            .setGravity(EasyDialog.GRAVITY_BOTTOM)
+                            .setBackgroundColor(context.getResources().getColor(R.color.background_color_blue))
+                            .setLocationByAttachedView(myActionView )
+                            .setAnimationTranslationShow(EasyDialog.DIRECTION_Y, 1000, -800, 100, -50, 50, 0)
+                            .setAnimationTranslationDismiss(EasyDialog.DIRECTION_Y, 500, 0, -800)
+
+                            .setTouchOutsideDismiss(true)//убрать клики снаружи
+                            .setMatchParent(true)
+                            .setMarginLeftAndRight(24, 24)
+                            .setOutsideColor(context.getResources().getColor(R.color.background_color_pink_dark))
+
+                            .setOnEasyDialogDismissed(new EasyDialog.OnEasyDialogDismissed()
+                            {
+                                @Override
+                                public void onDismissed()
+                                {
+
+
+                                    // onMapClick( );
+
+                                }
+                            })
+                            .show();
+
+                            */
+
+
+
+
+                }
+            }, 1000);
+
+
+
+
+            safeFlagFirstTimeEnd ();
+
+
+        }
+
+
+
+       private void safeFlagFirstTimeEnd (){
+
+            //<!--- 11:22 07jule 16
+           //TODO_done_all_from3h 1>>*------*
+           //TODO_done create editor sh_prf and safe flag (tips showed ) in name of manager
+
+           // record the fact that the app has been started at least once
+           settings.edit().putBoolean("my_first_time", false).commit();
+
+
+           //-->
+
+
+
+       }
+
+
+        @Override
+        public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+
+            // Toast.makeText(context,"Showcase hidden", Toast.LENGTH_SHORT).show();
+
+        }
+
+        @Override
+        public void onShowcaseViewShow(ShowcaseView showcaseView) {
+            //  Toast.makeText(context,"Showcase shown", Toast.LENGTH_SHORT).show();
+        }
+
+
+        @Override
+        public void onShowcaseViewTouchBlocked(MotionEvent motionEvent) {
+            //append("Touch blocked: x: " + motionEvent.getX() + " y: " + motionEvent.getY());
+            //  Toast.makeText(context,"Touch blocked: x: " + motionEvent.getX() + " y: " + motionEvent.getY(), Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+}
+

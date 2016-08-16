@@ -1,0 +1,39 @@
+package com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.Manager;
+
+import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+
+import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.Manager.controllers.DataManager;
+import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.R;
+public class UserDetailsActivity extends Activity {
+    // Before the onCreate
+    public final static String ID = "ID";
+    public EmployeeOfM user;
+
+    public TextView userName, userEmail;
+    public View mCircle;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_user_details);
+
+        // In the onCreate, after the setContentView method
+        user = DataManager.users.get(getIntent().getIntExtra(ID, 0));
+
+        // Views
+        //userName = (TextView) findViewById(R.id.details_user_name);
+        userEmail = (TextView) findViewById(R.id.details_user_email);
+        mCircle = findViewById(R.id.details_circle);
+
+        // Data population
+        //userName.setText(user.getUserName());
+        userEmail.setText(user.getUserEmail());
+        GradientDrawable bgShape = (GradientDrawable) mCircle.getBackground();
+        bgShape.setColor(Color.BLACK);
+    }
+}

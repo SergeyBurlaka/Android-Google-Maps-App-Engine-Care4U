@@ -1,0 +1,12 @@
+package com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.Manager.data;
+
+/**
+ * Created by Operator on 29.06.2016.
+ */
+public enum RecordReadStatus {
+    REQUEST_EMPLOYEE_LIST , FRIEND_EMPLOYEE_LIST,
+
+    REQUEST_EMPLOYEE,FRIEND_EMPLOYEE
+
+
+}

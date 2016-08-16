@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "E:\\MYMYMY\\JavaAndroid\\MyProjects(u2bSVN)\\Care4Uv1.2\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu_main.xml",
+        "source": "E:\\MYMYMY\\JavaAndroid\\MyProjects(u2bSVN)\\Care4Uv1.2\\app\\src\\main\\res\\menu\\menu_main.xml"
+    },
+    {
+        "merged": "E:\\MYMYMY\\JavaAndroid\\MyProjects(u2bSVN)\\Care4Uv1.2\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu_user_map.xml",
+        "source": "E:\\MYMYMY\\JavaAndroid\\MyProjects(u2bSVN)\\Care4Uv1.2\\app\\src\\main\\res\\menu\\menu_user_map.xml"
+    },
+    {
+        "merged": "E:\\MYMYMY\\JavaAndroid\\MyProjects(u2bSVN)\\Care4Uv1.2\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu_employee.xml",
+        "source": "E:\\MYMYMY\\JavaAndroid\\MyProjects(u2bSVN)\\Care4Uv1.2\\app\\src\\main\\res\\menu\\menu_employee.xml"
+    },
+    {
+        "merged": "E:\\MYMYMY\\JavaAndroid\\MyProjects(u2bSVN)\\Care4Uv1.2\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu_employee_map.xml",
+        "source": "E:\\MYMYMY\\JavaAndroid\\MyProjects(u2bSVN)\\Care4Uv1.2\\app\\src\\main\\res\\menu\\menu_employee_map.xml"
+    }
+]

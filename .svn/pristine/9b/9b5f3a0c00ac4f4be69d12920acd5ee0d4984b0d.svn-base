@@ -1,0 +1,93 @@
+package com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.GCM;
+
+/**
+ * Created by Operator on 24.03.2016.
+ */
+public class MessageConstant {
+
+    //from this message began spying for employee
+    public static final int KIND_SPY = 7;
+
+    //just for showing toasts
+    public static final int SIMPLE_MESSAGE = 1;
+
+    //sends statuses where employee (inside or outside) during spying
+    public static final int OUTSIDE_MESSAGE = 13;
+
+
+    //for get EmployeeOfM location
+    //when manager opens map he send request for employee's location
+
+   //from manager to employee
+    public static  final int GIVE_LOCATION = 6;
+    //from employee to manager
+    public static  final int TAKE_LOCATION = 8;
+
+    //request from employee to manager to add to friends
+    public static  final int NEW_EMPLOYEE_REQUEST = 25;
+
+    //answer of manager to employee request
+    public static  final int INFO_TO_EMPLOYEE_REQ = 16;
+
+
+    //constant - statuses during spying for employee
+    //witch sends in OUTSIDE message to manager
+    public static final int EXIT_CIRCLE = 703;
+    public static final int ENTER_CIRCLE = 705;
+    public static final int BEGIN_OUTSIDE = 7001;
+    public static final int BEGIN_INSIDE = 7002;
+
+
+   /*
+    * CONSTANTS FOR MANAGER SHARED_PREFERENCE:
+    */
+    //constant for shared preference
+    //for status in list view in manager cabinet list activity
+
+
+
+    public static final String STATUS_SPY_VIEW = "statusSPyViewForManagerEditor";//for sh p editor
+    public static final int NO_SPY =-1;
+
+
+    public static final int STOP_SPY = 23;
+
+
+
+    public static final String CIRCLE_LOCATION = "circleLocationForManagerEditor";   //for sh p editor
+
+    public static final String CIRCLE_LATITUDE = "circleLatitudeForManager";
+
+    public static final String CIRCLE_LONGITUDE = "circleLongitudeForManager";
+    public static final String CIRCLE_RADIUS = "circleRadiusForManager";
+
+
+
+
+    public static final String EMPLOYEE_LOC_LATITUDE = "employeeLatitudeForManager";
+
+    public static final String EMPLOYEE_lOC_LONGITUDE = "employeeLongitudeForManager";
+
+
+    public static final String EMPLOYEE_LOC_STATUS_CONST = "employeeStatusForManager";
+
+    public static final String EMPLOYEE_LOC_IS_HERE = "isHereForManager";
+    public static final String EMPLOYEE_LOC_EMAIL = "employeeMapForManager";
+    //isHere
+    //employeeEmail
+
+
+    public static final String OPEN_USER_MAP_FROM = "openMapFromForManagerEditor";//for sh p editor
+
+    public static final int FROM_NOTIFICATION = 111;
+    public static final int FROM_CABINET = 222;
+
+    public static final String MANAGER_INFO = "managerInfo";
+
+    /*
+    * THE_END
+    */
+
+
+
+}
