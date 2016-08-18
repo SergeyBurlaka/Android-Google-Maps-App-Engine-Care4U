@@ -5,7 +5,7 @@ Family GPS locator Kid Control.
 You register yourself as a manager or employee. When you register as a manager, you can add employee as a friend to manager's list.  After that manager can to spy on employee phone location. 
 Manager gets employee location  every time, when he opens map. 
 Also he can to start spy service. First manager sets a circle (a circular area) around employee's location at Google map. And start spy. So, app becomes to monitor the situation. Is employee in the circle? If employee is out, manager will get notification: "Alarm! Employee Name came out the circular area, that you created. He isn't in Safe Zone, now!"
-
+ð
 ## Screenshots
 
 <img src= "https://cloud.githubusercontent.com/assets/21062067/17776870/fa33de80-6566-11e6-9334-3b208b0c0f90.png" width="250">
