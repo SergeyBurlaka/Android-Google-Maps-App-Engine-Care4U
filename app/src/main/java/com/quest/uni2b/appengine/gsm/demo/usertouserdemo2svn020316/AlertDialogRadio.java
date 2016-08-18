@@ -14,7 +14,6 @@ import android.os.Bundle;
 
 public class AlertDialogRadio extends DialogFragment {
 
-
     /** Declaring the interface, to invoke a callback function in the implementing activity class */
     AlertPositiveListener alertPositiveListener;
 
@@ -73,13 +72,8 @@ public class AlertDialogRadio extends DialogFragment {
         /** Setting a positive button and its listener */
         b.setNegativeButton("Cancel", null);
 
-
-
         /** Creating the alert dialog window using the builder class */
         AlertDialog d = b.create();
-        //d.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //d.setContentView(R.layout.tabs);
-        //d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         /** Return the alert dialog window */
         return d;

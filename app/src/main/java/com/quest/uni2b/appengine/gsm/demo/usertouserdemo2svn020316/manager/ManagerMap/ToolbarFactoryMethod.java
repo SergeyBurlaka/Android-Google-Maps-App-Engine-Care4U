@@ -13,7 +13,6 @@ package com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.manager.Mana
 public class ToolbarFactoryMethod {
 
     private UserMapsActivity mapContext;
-
     public ToolbarFactoryMethod(UserMapsActivity context) {
         this.mapContext = context;
     }

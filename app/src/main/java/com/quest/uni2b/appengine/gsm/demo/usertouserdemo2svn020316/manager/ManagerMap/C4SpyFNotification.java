@@ -40,15 +40,12 @@ public class C4SpyFNotification implements CSetStrategy {
         this.employeeSelected = context.employeeSelected;
     }
 
-
     @Override
     public Circle setCircle(GoogleMap map) {
-
         Circle oldCircle  = map.addCircle(new CircleOptions()
                 .radius(employeeLocation.getRadius())
                 .center(new LatLng(employeeLocation.getCircle1latitude(), employeeLocation.getCircleLongitude()))
                 .strokeColor(Color.BLACK)
-
                 // Fill color of the circle
                 // 0x represents, this is an hexadecimal code
                 // 55 represents percentage of transparency. For 100% transparency, specify 00.
@@ -63,11 +60,8 @@ public class C4SpyFNotification implements CSetStrategy {
         markerEmployee = map.addMarker( new MarkerOptions()
                 .icon(BitmapDescriptorFactory.fromBitmap(writeTextOnDrawable(R.mipmap.foot, "" )))
                 .position(new LatLng(employeeLocation.getEmployeeLatitude(), employeeLocation.getEmployeeLongitude())).title(employeeSelected+ " crossed area here." )
-
         );
-
         //camera
-
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target( markerEmployee.getPosition())
                 //.zoom(map.getCameraPosition().zoom)
@@ -75,13 +69,9 @@ public class C4SpyFNotification implements CSetStrategy {
                 //.bearing(targetBearing)
                 //.tilt(20)
                 .build();
-
         // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mMarker.getPosition(), 14));
-
         CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
         map.animateCamera(cameraUpdate);
-
-
         return oldCircle;
     }
 
@@ -95,7 +85,6 @@ public class C4SpyFNotification implements CSetStrategy {
                 .copy(Bitmap.Config.ARGB_4444, true);
 
         Typeface tf = Typeface.create("Helvetica", Typeface.BOLD);
-
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.RED);
@@ -103,7 +92,6 @@ public class C4SpyFNotification implements CSetStrategy {
         paint.setFakeBoldText(true);
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(convertToPixels(context, 11));
-
         Rect textRect = new Rect();
         //paint.getTextBounds(text, 0, text.length(), textRect);
 
@@ -125,15 +113,9 @@ public class C4SpyFNotification implements CSetStrategy {
         return  bm;
     }
 
-
     public static int convertToPixels(Context context, int nDP)
     {
         final float conversionScale = context.getResources().getDisplayMetrics().density;
-
         return (int) ((nDP * conversionScale) + 0.5f) ;
-
     }
-
-
-
 }

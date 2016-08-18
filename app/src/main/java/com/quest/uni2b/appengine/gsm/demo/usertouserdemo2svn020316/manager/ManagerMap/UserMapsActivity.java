@@ -78,7 +78,6 @@ import static com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.manage
 
 public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnMapClickListener, OnMapReadyCallback, com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-
     private   CreateSpyMessage createSpyMessage;
     EmployeeLocation employeeLocation ;
     private GoogleApiClient mGoogleApiClient = null;
@@ -87,7 +86,7 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
     private Bundle user;
     private  double latitude;
     private  double longitude;
-     Location mCurrentLocation;
+    Location mCurrentLocation;
     Marker mMarker = null;
     private  MarkerOptions markerEmployeeLoc;
     private int openMapFrom;
@@ -105,50 +104,33 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
     private  final double SOME_HORIZONTAL_DISTANCE = 0.0007, SOME_VERTICAL_DISTANCE = 0.0002;
     MenuItem itemSpy, itemStop,/* itemRefresh,*/ itemHelp;
     TextView employeeNameText;
-    //for detect if opened first time to show tips study
-    //i create sharedGetCircle preference flag in settings
+    //For detect if opened first time to show tips study
+    //I create sharedGetCircle preference flag in settings
     final String PREFS_NAME = "MyPrefsFile";
-    ////TODO_done create flag "did tips started?"
     private boolean isTipStarted = false;
-    //TODO_done create flag isSPy
-    private boolean isSpy, firstTime = true;
-
-    //fpr get circle from memory
+    //For get circle from memory
     CircleLabel circleLabel4E;
-
-   // private static final String FAIL_TO_GET_LOC = "   Failed to get location."+"\n"+" We tried to get location of ";
-   // private  final  String GPS_DISABLE = ". But he has disabled GPS. So, we have already asked him to toggle GPS on. Wait for him, please.";
-    //private static final String FAIL_TO_START_SPY = "  Sorry, but spy didn't start.";
-    //private static final String RESTART_SPY = " And restart spy from some time.";
-   // private GoogleMap fieldGMap;
     ProgressBar progressBar;
     private Thread threadTryGetLocation;
     private ProgressDialog dialogStartSpyProgress;
-
-
-   //work around with fight  notification from employee when spy stop, or disable
+   //Work around with fight  notification from employee when spy stop, or disable
     public  static volatile boolean noMore4Notification = false;
-
-
     // For Factory Method Pattern
     ToolbarFactoryMethod toolbarFactory;
     Toolbar4Map toolbarStartFace;
-     Toolbar4Map toolbarOnShowTip;
+    Toolbar4Map toolbarOnShowTip;
     Toolbar4Map toolbarViewFailGetLoc;
-     Toolbar4Map toolbarOnGetLocationWin;
-
+    Toolbar4Map toolbarOnGetLocationWin;
     // For Strategy Pattern
     GetCircle4Map getCircle4Map;
-
     Circle circleAreaMarker, oldCircle;
     GoogleMap mMap;
     private Marker markerDraggable, markerEmployee;
     C4Draggable circle4Draggable;
-     MenuItem itemAlertIndicator;
+    MenuItem itemAlertIndicator;
 
     private FloatingActionButton myFab;
-     TextView textWithProgress;
-
+    TextView textWithProgress;
     //when click refresh floating button
     //start new wait thread
     private Thread threadWait4Refresh;
@@ -157,14 +139,11 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
     private SharedPreferences.Editor alarmShPEditor;
 
 
-    //for win under some bugs
-   // private boolean isEndOfDemoStudy=false;
-
-    //@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    //TODO onCreate ()
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         spIsActive = getSharedPreferences(MessageConstant.MANAGER_INFO, MODE_PRIVATE);
         saveCircleLblShared = getSharedPreferences(employeeSelected, MODE_PRIVATE).edit();
         sharedGetCircle = getSharedPreferences(employeeSelected,MODE_PRIVATE);
@@ -177,7 +156,6 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //TODO_done+in 13:00 23june 16  add arrow return
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -194,25 +172,13 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
         getRadius = (EditText) findViewById(R.id.inputRadius);
         getRadius.addTextChangedListener(new TextWatcher(){
 
-            //TODO_done change dynamically circle
-
+            //Change dynamically circle
             public void afterTextChanged(Editable s) {
                 String textRadius =  getRadius.getText().toString();
                 if (textRadius.matches(""))return;
                 // getDoubleRadius = Double.parseDouble(textRadius);
                 getDoubleRadius = new Double(textRadius);
                 if (circleAreaMarker != null) circleAreaMarker.setRadius(getDoubleRadius);
-
-                // <!--- 18.07.2016   15:30
-                //TODO_d+ set in sharedGetCircle preference status HaveValue
-                // sharedGetCircle = getSharedPreferences(employeeSelected,MODE_PRIVATE);
-
-               /* editorStatusSpy = getSharedPreferences(employeeSelected,MODE_PRIVATE).edit();
-                editorStatusSpy.putBoolean("HaveValue", true  );
-                editorStatusSpy.someProcess();
-                */
-                //-->
-
             }
             public void beforeTextChanged(CharSequence s, int start, int count, int after){}
             public void onTextChanged(CharSequence s, int start, int before, int count){
@@ -222,81 +188,52 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
 
         myFab = (FloatingActionButton)  findViewById(R.id.myFloatRefresh4Map);
         myFab.setOnClickListener(new View.OnClickListener() {
-
             public Marker temp4elMarker;
-
             public void onClick(View v) {
-
-               // if(mMarker!=null)mMarker.remove();
-
-               // itemRefresh.setActionView(R.layout.actionbar_progress_for_refresg_item);
                 new AsynTaskForManager(UserMapsActivity.this, user.getLong("mamagerId"), employeeSelected ,AsynTaskForManagerEnum.GET_LOCATION).execute();
-               // toolbarStartFace.load4ItemRefresh();
-
                 //<!-- 28.07.2016  12:15
-                //TODO_done_form1hour_of_debug >> ----1.0----wait4DataRefreshT ();
-                //TODO_+20min create waitRefreshThread -> wait for 3 sec
-                //TODO_+20min set link to marker in new variableDelete
-                //TODO_+20min after  start indicate thread, delete marker using variableDelete
-
+                //WaitRefreshThread -> wait for 3 sec
+                //Set link to marker in new variableDelete
+                //After start indicate thread, delete marker using variableDelete
                 wait4DataRefreshT ();
-
-                //-->
             }
 
-
-
             private void wait4DataRefreshT() {
-
                 temp4elMarker = mMarker;
-
                 if ( threadWait4Refresh!=null &&  threadWait4Refresh.isAlive())return;
-
                 threadWait4Refresh = new Thread() {
 
 
                     @Override
                     public void run() {
-
                         try {
-
                             while (true) {
-
                                 sleep(3000);
                                 if(Thread.currentThread().isInterrupted())return;
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-
                                         createFacePalm();
                                     }});
-
-
-
                             }
-
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
                 };
                 threadWait4Refresh.start();
-
             }
 
-
             void createFacePalm() {
-
                 if (toolbarOnGetLocationWin != null)
                 {
-                    //Create hot mix of different toolbar state
+                    //Create mix of different toolbar state
                     if(toolbarViewFailGetLoc == null) toolbarViewFailGetLoc = toolbarFactory.getToolbar(new ToolbarGetLocationFail(UserMapsActivity.this));
                     toolbarViewFailGetLoc.defineSpyingItem();
                     toolbarStartFace.startIndicateThread();
                 }
                 if (temp4elMarker !=null) temp4elMarker.remove();
             }
-
         });
         //if opened from notification
        if(openMapFrom == MessageConstant.FROM_NOTIFICATION){
@@ -326,45 +263,34 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
                .icon(BitmapDescriptorFactory.fromBitmap(writeTextOnDrawable(R.mipmap.human_i, "" )));
         IntentFilter filterRefresh = new IntentFilter(MessageAgent.GET_E_LOCATION_ACTION);
         filterRefresh.addAction(MessageConstant.ACTION_START_SPY );
+
         // 26.07.2016
-        //TODO_+  >>1.1
-        //TODO_+ add action
-        //filterRefresh.addAction(MessageConstant.ACTION_START_SPY );
         //for dynamically getting data about employee location
         registerReceiver(broadcastReceiver, filterRefresh);
     }
+
 
     /*
     *    Extras employee data from Intent  on Create
     * */
     public void getExtrasToUser() {
         user = getIntent().getExtras();
-
         //get status  from Extras to detect if opened from notification
         openMapFrom = user.getInt(MessageConstant.OPEN_USER_MAP_FROM);
-
         //get employee selected email
         employeeSelected =  user.getString(MessageConstant.EMPLOYEE_LOC_EMAIL);
-
     }
 
+
     private void createEmployeeLocationObject (){
-
         employeeLocation = new EmployeeLocation();
-
         employeeLocation.setCircle1latitude(user.getDouble(MessageConstant.CIRCLE_LATITUDE ));
         employeeLocation.setCircleLongitude(user.getDouble(MessageConstant.CIRCLE_LONGITUDE));
         employeeLocation.setRadius(user.getDouble(MessageConstant.CIRCLE_RADIUS));
-
-        // employeeLocation.setHere(user.getBoolean(MessageConstant.EMPLOYEE_LOC_IS_HERE));
-
         employeeLocation.setEmployeeLatitude(user.getDouble(MessageConstant.EMPLOYEE_LOC_LATITUDE));
         employeeLocation.setEmployeeLongitude(user.getDouble(MessageConstant.EMPLOYEE_lOC_LONGITUDE));
-
-        // employeeLocation.setEmployeeEmail(user.getString(MessageConstant.EMPLOYEE_LOC_EMAIL));
-        // employeeLocation.setStatusConst( user.getInt(MessageConstant.EMPLOYEE_LOC_STATUS_CONST));
-
     }
+
 
     /*
        Create marker - icon in map
@@ -374,7 +300,6 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
 
         Bitmap bm = BitmapFactory.decodeResource(getResources(), drawableId)
                 .copy(Bitmap.Config.ARGB_4444, true);
-
         Typeface tf = Typeface.create("Helvetica", Typeface.BOLD);
 
         Paint paint = new Paint();
@@ -409,12 +334,8 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
     public static int convertToPixels(Context context, int nDP)
     {
         final float conversionScale = context.getResources().getDisplayMetrics().density;
-
         return (int) ((nDP * conversionScale) + 0.5f) ;
-
     }
-
-
 
 
     /*
@@ -426,49 +347,35 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
         mGoogleApiClient.connect();
     }
 
-   //TODO onBackPressed ()
+
     @Override
     public void onBackPressed()
     {
-        //<!--5:53
-        // TODO_: 15.07.2016
-        //TODO_d+30min save in editorStatusSpy lat long & radius
-
+        //Save in editorStatusSpy lat long & radius
         //Shut all threads because out of memory error
-
         shutAllThreads ();
-
-
         if ( MessageConstant.NO_SPY == getStatus ())  getCircle4Map.saveCircleLabel(circleAreaMarker);
-
         if(!spIsActive.getBoolean( "active", false))  {
             Intent cabinetManagerAct = new Intent(this, ManagerCabinetListActivity.class );
-
             cabinetManagerAct.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             finish();
             startActivity(cabinetManagerAct );
-
         }else {
-            //only finish
             finish();
         }
     }
+
 
     /**
      *   shut All Threads  on Back Pressed
      */
     private void shutAllThreads() {
-
         toolbarStartFace.setInterruptAnimateLoadText(true);
         threadTryGetLocation.interrupt();
         toolbarStartFace.getThread().interrupt();
-
-        //<!--- 28.07.2016  13:10
-        //TODO_done_form1hour_of_debug_in15:00 ---1.3--- if (threadWait4Refresh!=null) threadWait4Refresh.interrupt();
-        //todo_+ wait4DataRefresh interrupt
         if (threadWait4Refresh!=null) threadWait4Refresh.interrupt();
-        //-->
     }
+
 
     @Override
     public void onStop() {
@@ -478,17 +385,15 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
         }
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // дерегистрируем (выключаем) BroadcastReceiver
         unregisterReceiver(broadcastReceiver);
         if( mGoogleApiClient != null && mGoogleApiClient.isConnected() ) {
             mGoogleApiClient.disconnect();
         }
     }
-
-
 
 
     /**
@@ -502,12 +407,10 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
         itemStop = menu.findItem(R.id.stop_spy);
        // itemRefresh = menu.findItem(R.id.myRefreshMap);
         itemHelp = menu.findItem(R.id.study);
-
         itemAlertIndicator = menu.findItem(R.id.fail_loc_indicator);
 
-
         //<!--- 19.07.2016
-        //TODO_ set all item false
+        //Set all item false
        // Using Pattern Factory method for create different views of toolbar
         toolbarFactory = new ToolbarFactoryMethod(UserMapsActivity.this);
         //Now creating toolbar in starting position
@@ -515,24 +418,19 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
         toolbarStartFace.createFace();
        // toolbarStartFace.setRadiusFAndNameFViews();
         //toolbarStartFace.startIndicateThread();
-
         return true;
     }
-
-
 
 
     /*
         Listener for item in toolbarFactory
      */
-    //TODO onOptionsItemSelected ()
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
 
             case android.R.id.home:
                 onBackPressed();
-
                 return true;
 
             case R.id.stop_spy:
@@ -543,7 +441,6 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
                 new AsynTaskForManager(this, user.getLong("mamagerId"), employeeSelected ,AsynTaskForManagerEnum.STOP_SPY).execute();
                 // your action goes here
                 return true;
-            //-->
 
             case R.id.spy_for_employee:
                 someProcess( State4Commit.ON_START);
@@ -599,27 +496,25 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
         dialogStartSpyProgress.show();
     }
 
+
     private void onDisableClick() {
         someProcess(ON_DISABLE);
         ManagerCabinetListActivity.flagNewRequest = true;
         new AsynTaskForManager(this, user.getLong("mamagerId"), employeeSelected ,AsynTaskForManagerEnum.STOP_SPY).execute();
-
     }
+
 
      /*
     *   Help method for on Options Item Selected
     */
     private void someProcess(State4Commit state4Commit) {
         switch (state4Commit){
+
             case ON_STOP:
-
                 //<!--- 29.07.2016
-                //TODO stopEmployeeCService (this);
-                //TODO_+ delete from inListOfSpyEmployees in ShPr
-                //TODO_+  stopEmployeeCService (this);
+                //Delete from inListOfSpyEmployees in ShPr
+                //StopEmployeeCService (this);
                 stopEmployeeCService (this);
-                //TODO_ clean from email
-
 
             case ON_DISABLE:
                 // work around for no getting spare notifications
@@ -636,30 +531,27 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
                 saveCircleLblShared.putInt(MessageConstant.STOP_NOTIFICATIONS,  MessageConstant.DISABLE );
                 saveCircleLblShared.putInt(MessageConstant.CLICKED_SPY,  MessageConstant.CLICKED );
                 saveCircleLblShared.commit();
-
                 if (circleAreaMarker == null)break;
                 circleLabel = new CircleLabel();
                 circleLabel.setLatitude( circleAreaMarker.getCenter().latitude);
                 circleLabel.setLongitude( circleAreaMarker.getCenter().longitude);
                 circleLabel.setRadius( circleAreaMarker.getRadius());
-
                 break;
-
         }
     }
 
-    private void stopEmployeeCService(UserMapsActivity userMapsActivity) {
 
+    private void stopEmployeeCService(UserMapsActivity userMapsActivity) {
             employeeControl = new AlarmServiceReceiver();
             employeeControl.stopControl(this);
     }
+
 
     /*
    *    Set circle on stop spy item click on Options Item Selected
    *     on R.id.stop_spy:
    **/
     private void refreshCircle() {
-
         if (oldCircle!=null) {
             circleAreaMarker = oldCircle;
             markerDraggable = mMap.addMarker(new MarkerOptions()
@@ -672,6 +564,7 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
         }
     }
 
+
     private void setRadiusInputField() {
         getRadius.setVisibility(View.VISIBLE);
         inputLayoutName.setVisibility(View.VISIBLE);
@@ -679,34 +572,23 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
         getRadius.setSelection(getRadius.getText().length());
     }
 
+
     /*
   *   Help methods for make spy request from manager map activity on Options Item Selected
   *   on R.id.spy_for_employee:
   */
     private ArrayList<String> fillEmails() {
-
-        //<-----TO_DO_LIST                        _{+}_
-        //make request SPY
-        //but get email from made choice of manager, when he opened  the map for chosen employee from recyclerList.
-        // //#URGENTLY
-
         ArrayList<String> listStrEmplEmail = new ArrayList<>();
         listStrEmplEmail.add(employeeSelected);// employeeEmailStr
         return listStrEmplEmail;
-
-
-        //<-----
-
     }
 
-    private String createSpyMessage (){
 
+    private String createSpyMessage (){
         createSpyMessage = new CreateSpyMessage(circleLabel,"@Manager");
         String SPYmessage = createSpyMessage.getSpyMessage();
         return SPYmessage;
     }
-
-
 
 
     /*
@@ -715,15 +597,10 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
     //TODO create onMapReady ()
     @Override
     public void onMapReady(GoogleMap map) {
-
         mMap = map;
         //get our location
         map.setMyLocationEnabled(true);
-
-
-
         setCircleOnMapReady ();
-
         map.setOnMapClickListener(this);
         map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
 
@@ -732,9 +609,9 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
                 return true;
             }
         });
-
         tryGetLocationThreads ();
     }
+
 
     /*
     *    Try get location for employee (for 3 time in separate thread )
@@ -748,7 +625,6 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
             @Override
             public void run() {
                 try {
-
                     int i =0;
                     while(i<2&&!Thread.currentThread().isInterrupted()) {
                         sleep(3000);
@@ -762,7 +638,6 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-
                             //In case of fail to get employee location app set fail alert indicator in toolbar
                             toolbarViewFailGetLoc = toolbarFactory.getToolbar(new ToolbarGetLocationFail(UserMapsActivity.this));
                             toolbarViewFailGetLoc.createFace();
@@ -781,39 +656,26 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
 
     }
 
+
     /*
     *   Set  circle for employee on Map Ready
     */
     private void setCircleOnMapReady() {
-
-
         //*** Using strategy Pattern.
         // *** Create base system for use different algorithms to set circle on map
         getCircle4Map = new GetCircle4Map(this);
         //*** Our algorithm for setup draggable circle on map in begin
         circle4Draggable = new C4Draggable(this);
 
-       /* if(openMapFrom == MessageConstant.FROM_NOTIFICATION) {
-            //When spy begin or something happened (employee exit, employee enter circle)
-            //we give notification with data. (spy circle and employee location from employee client )
-            oldCircle = getCircle4Map.executeSetCircle(new C4SpyFNotification(this));
-            //setCircleAndEmployeeMarker(map);
-        }else {*/
-
-        //set circle from memory (Shared Preference)
-        //when open map from manager cabinet
         if (getStatus() == MessageConstant.NO_SPY) {
-
             // * For executing strategy pattern we use "circle4Draggable" algorithm
             // to set new circle on map from shared preference
             circleAreaMarker = getCircle4Map.executeSetCircle(circle4Draggable);
             setOutputValueOfDraggableCircle();
         }//setDraggableMarkerAndCircle(map);
         else   oldCircle = getCircle4Map.executeSetCircle(new C4Spy(this)); //setSpyCircle(map);
-
-        //}
-
     }
+
 
     /*
       *    Set draggable circle radius value, after set this circle on map
@@ -823,15 +685,11 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
         circleLabel4E = circle4Draggable.getCircleLabel4E();
         getRadius.setText(String.valueOf((int)circleLabel4E.getRadius()));
         getRadius.setSelection(getRadius.getText().length());
-
     }
-
-
 
 
     @Override
     public void onMapClick(LatLng latLng) {
-
         if (markerDraggable == null)return;
         markerDraggable.setPosition(latLng);
         circleAreaMarker.setCenter(latLng);
@@ -839,32 +697,26 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
             findViewById(R.id.tipMapImageFinger).setVisibility(View.INVISIBLE);
             //  findViewById(R.id.tipsMapTextFinger).setVisibility(View.INVISIBLE);
             findViewById( R.id.tipArrowImageFinger).setVisibility(View.INVISIBLE);
-
             tips = false;
-
         }
-
     }
+
 
     @Override
     public void onLocationChanged(Location location) {
-
     }
+
 
     public void onConnectionFailed(ConnectionResult arg0){
 
     }
 
 
-
-    //TODO onConnected ()
-
     public void onConnected(Bundle bundle){
 
         mCurrentLocation = LocationServices
                 .FusedLocationApi
                 .getLastLocation( mGoogleApiClient );
-
 
         if (!getCameraPosition()) return;
         CameraPosition cameraPosition = new CameraPosition.Builder()
@@ -874,20 +726,15 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
                 //.bearing(targetBearing)
                 //.tilt(20)
                 .build();
-
-        // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mMarker.getPosition(), 14));
-
-
-
         CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
         mMap.animateCamera(cameraUpdate);
     }
+
 
       /*
     *   Help methods 4 moving camera  on  Connected
     **/
     public boolean getCameraPosition() {
-
         if (mCurrentLocation == null){
             if( isCircleAreaMarkerInZero())return false;//do not move camera
             currLocOnConnected = getCenter ();return true;// move camera to center of circle
@@ -899,39 +746,31 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
         }
 
 
-
-
-
     public LatLng getCenter() {
         if(circleAreaMarker!=null)  return  circleAreaMarker.getCenter();
         if (oldCircle!= null) return oldCircle.getCenter();
         return new LatLng (0,0);
     }
 
+
     public void onConnectionSuspended(int arg0){
     }
 
 
-
-
-
-         /*
-         *    BroadcastReceiver for interactive getting employee location
-         *
-         */
-    //TODO BroadcastReceiver broadcastReceiver ()
+   /*
+    *    BroadcastReceiver for interactive getting employee location
+    *
+    */
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
              public AlertDialog myDialog;
 
-             @Override
+        @Override
         public void onReceive(Context context, Intent intent) {
             //updateDate(intent);
             String action = intent.getAction();
-
             switch (action){
 
                 case MessageAgent.GET_E_LOCATION_ACTION:
-
                     if(!read4ControlGPS(intent)){
                         //todo_ stop thread
                        if (threadTryGetLocation.isAlive()) threadTryGetLocation.interrupt();
@@ -944,12 +783,10 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
                 case MessageConstant.ACTION_START_SPY:
 
                     if (noMore4Notification) return;
-                    // 26.07.2016
-                    //TODO_+ if false do all if just rfresh --> only get new employee location
-                    //todo_+ get location employee
+
                     new AsynTaskForManager(UserMapsActivity.this, user.getLong("mamagerId"),employeeSelected ,AsynTaskForManagerEnum.GET_LOCATION).execute();
 
-                  if (intent.getExtras().getBoolean("justRefresh", true)) return;
+                    if (intent.getExtras().getBoolean("justRefresh", true)) return;
 
                     dialogStartSpyProgress.dismiss();
                     itemSpy.setVisible(false);
@@ -962,7 +799,6 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
                                 .radius(circleAreaMarker.getRadius())
                                 .strokeColor(Color.BLACK)
                                 .fillColor(ContextCompat.getColor(UserMapsActivity.this, R.color.outside_color_pink))
-
                                 // Border width of the circle
                                 .strokeWidth(2)
                         );
@@ -977,33 +813,14 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
         }
 
 
-
-       //TODO setUpMap()
         //get data location from brodcasr receiver
-        private void setUpMap()
-        {
-
-            // <!---29.07.2016
-            //TODO_- 2.1
-            //TODO_- if win check status if  "DISAPPEARED" ->1 change to -->0
-            //TODO_- + set in shPr status from tempStatusSh Pref)
-
-
-            //-->29.07.2016
-
-
-            //<!-- 28.07.2016  12:20
-            //TODO_done_form1hour_of_debug_in15:00 >> ----1.1.1-------
-            //TODO_+from20m stop waitRefreshThread
+        private void setUpMap() {
             if (threadWait4Refresh!=null) threadWait4Refresh.interrupt();
-
-            //-->
-           //TODO_+ delete alert indicator in toolbar if toolbarViewFailGetLoc object not null
+           //Delete alert indicator in toolbar if toolbarViewFailGetLoc object not null
             toolbarStartFace.onTransformerToolbar();
 
             //Using Pattern Factory method for create different views of toolbars
             //Now creating toolbar when we get successfully employee location
-
             if( toolbarOnGetLocationWin == null) toolbarOnGetLocationWin = toolbarFactory.getToolbar( new ToolbarGetLocationWin(UserMapsActivity.this));//.createFace();
             toolbarOnGetLocationWin.createFace();
             //toolbarViewFailGetLoc.setRadiusFAndNameFViews();
@@ -1014,31 +831,18 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
 
             cameraMoveOnSetUpMAp();
             showTipsIf1Time ();
-
         }
 
 
         //Showing tips when user opened map first time
         private void showTipsIf1Time() {
-
             settings = getSharedPreferences(PREFS_NAME, 0);
-
             if (settings.getBoolean("my_first_time", true)&&!isTipStarted) {
                 isTipStarted = true;
-
                 setMarkerCircleInFirstTime();
-
-                firstTime = false;
+               // firstTime = false;
                 showTips();
-
-            }/*else
-
-            if(getStatus()==MessageConstant.NO_SPY &&firstTime){
-                setMarkerCircleInFirstTime ();
-                firstTime = false;
-
-            }*/
-
+            }
         }
 
 
@@ -1051,26 +855,18 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
                     //.bearing(targetBearing)
                     //.tilt(20)
                     .build();
-
-            // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mMarker.getPosition(), 14));
-
             CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
             mMap.animateCamera(cameraUpdate);
-
         }
-
 
 
         ///It works when employee GPS disable
         private boolean read4ControlGPS( Intent intent) {
             int status4Control;
-            //TODO_DONE_ALL_FROM_TOTAL_TIME_3H >> >> *--1--*
-            //TODO_d+1:33 get status about kind 4 alert
-            //TODO_d+1:33 show alert
-
+            // Get status about kind for alert
+            //Show alert
             status4Control = intent.getExtras().getInt("status4Alert",0);
             if (status4Control == 0) return false;
-
             createStateAlert(status4Control);
             return true;
         }
@@ -1087,93 +883,56 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
 
         private boolean isSetMarkerCircleSecondary() {
             //TODO_CircleSetdoneTotalFrom3h>> 4
-
             if (circleAreaMarker.getCenter().latitude != 0) return false;
-
             return true;
-
         }
 
-    /*
-    *   Show alert dialogs
-     */
 
-             //TODO createStateAlert ()
+        /*
+        *   Show alert dialogs
+        */
         private void createStateAlert(int status4Control) {
             StringBuilder sb = new StringBuilder();
             //<!--- 27.07.2016
-            //todo_d+14min set alert indicator if toolbarOnWin != null
-            //todo_d+14min delete employee
+            // Set alert indicator if toolbarOnWin != null
+            //Delete employee
             createFacePalm ();
-
-
                 switch (status4Control) {
 
                 case MessageConstant.GPS_DISABLE:
-
                     // <!-- 28.07.2016 12 :20
-                    //TODO_done_form1hour_of_debug_in15:00 >> ----1.1.2----if (threadWait4Refresh!=null) threadWait4Refresh.interrupt();
-                    //TODO_+ stopWaitRefreshThread
+                    //stopWaitRefreshThread
                     if (threadWait4Refresh!=null) threadWait4Refresh.interrupt();
-                    //-->
-
                     sb.append("   Failed to get location."+"\n");
                     sb.append(employeeSelected);
                     sb.append(" has disabled GPS."+"\n"+ "   Don't worry. App had already asked him to toggle GPS on.");
-
-
                     buildDialog (sb.toString());
-
                     break;
+
                 case MessageConstant.SPY_DID_NOT_START:
                     sb.append("  Sorry, spy didn't start. Failed to get location."+"\n");
                     sb.append(employeeSelected);
                     sb.append(" has disabled GP"+"\n"+ "   Don't worry. App had already asked him to toggle GPS on.");
                     buildDialog (sb.toString());
-                    //// TODO_d+15min disable progress bar
-
                     // <!-- 28.07.2016 12 :50
-                    //TODO_done_form1hour_of_debug_in15:00 >>  ----2 ----matrix reload
-                    //TODO_+ abort dismiss
+                    //Abort dismiss
                     if (dialogStartSpyProgress != null)
                     dialogStartSpyProgress.dismiss();
-
-                    //todo_ set item
-                  //  toolbarStartFace.toggleSpyItem();
                     break;
-                //<!--- 27.07.2016
-                //TODO_ case new status
-                    case MessageConstant.TURN_GPS_DISABLE:
 
+                //<!--- 27.07.2016
+                    case MessageConstant.TURN_GPS_DISABLE:
                         sb.append("   Spy is not working"+"\n");
                         sb.append(employeeSelected);
                         sb.append(" has disabled GPS."+"\n"+ "   Don't worry. App had already asked him to toggle GPS on.");
-
                         buildDialog (sb.toString());
-
                         break;
 
-                    //<!--- 27.07.2016 21:00
-                    //TODO_d+15 case Messg.GPS_ENABLE
-                    //TODO_d+15 SEND req to get loc
-                    //TODO_d+15  alert
-
-                  // <!--- 28.07.2016
-                   //TODO_done_form1hour_of_debug----3 -------
-                   /* case MessageConstant.TURN_GPS_SPY:
-                        //TODO_+ abort dismiss
-
-                        someProcess( State4Commit.ON_START);
-                        new AsynTaskForManager(UserMapsActivity.this,user.getLong("mamagerId"),fillEmails(), createSpyMessage(), AsynTaskForManagerEnum.SPY).execute();
-
-
-                        break;*/
                     case MessageConstant.TURN_GPS_ENABLE:
                         sb.append("It's all ok. ");
                         sb.append(employeeSelected);
                         sb.append(" has just enabled GPS! Spy  continues working." );
                         buildDialog (sb.toString());
-
                         new AsynTaskForManager(UserMapsActivity.this, user.getLong("mamagerId"), employeeSelected ,AsynTaskForManagerEnum.GET_LOCATION).execute();
                         break;
 
@@ -1182,32 +941,25 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
                         sb.append(employeeSelected);
                         sb.append(" has just enabled GPS! " );
                         buildDialog (sb.toString());
-
                         new AsynTaskForManager(UserMapsActivity.this, user.getLong("mamagerId"), employeeSelected ,AsynTaskForManagerEnum.GET_LOCATION).execute();
                         break;
-
-
             }
-
-
         }
 
 
-         void createFacePalm() {
+        void createFacePalm() {
             if (toolbarOnGetLocationWin != null)
             {
                 //Create hot mix of different toolbar state
                 if(toolbarViewFailGetLoc == null) toolbarViewFailGetLoc = toolbarFactory.getToolbar(new ToolbarGetLocationFail(UserMapsActivity.this));
                 toolbarViewFailGetLoc.defineSpyingItem();
-
                 toolbarStartFace.startIndicateThread();
-
             }
             if(mMarker!=null)mMarker.remove();
         }
 
-        private void buildDialog(String message) {
 
+        private void buildDialog(String message) {
             if( myDialog != null && myDialog.isShowing() ) return;
             AlertDialog.Builder builder = new AlertDialog.Builder(UserMapsActivity.this);
             builder.setMessage(message)
@@ -1219,31 +971,23 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
                     });
              myDialog = builder.create();
             myDialog.show();
-
         }
-
     };
-
-
 
 
        /*
        *    For showing tips
        */
     private void showTips (){
-
-
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
                 /*
-                  Befor show tips make some preparation
-
+                  Before show tips make some preparation
                  */
                 toolbarOnShowTip = toolbarFactory.getToolbar( new ToolbarShowTips(UserMapsActivity.this));
                 toolbarOnShowTip.createFaces(ToolbarFacesState.ON_START_TIP);
                 //toolbarOnShowTip.setRadiusFAndNameFViews(ToolbarFacesState.ON_START_TIP);
-
                 tips = true;
 
                 findViewById(R.id.inputRadius).setVisibility(View.INVISIBLE);
@@ -1264,12 +1008,9 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
                 mMap.animateCamera(cameraUpdate);
 
-
               /*
                   Begin demonstrate our tips show
-
                */
-
                 TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
                 paint.setTextSize(getResources().getDimension(R.dimen.abc_text_size_large_material));
                 TextPaint title = new TextPaint(Paint.ANTI_ALIAS_FLAG);
@@ -1277,7 +1018,6 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
                 title.setUnderlineText(true);
 
                 //   MultiEventListener multiEventListener = new MultiEventListener(new LogToTextListener(eventLog), new ShakeButtonListener(customButton));
-
                 ShowcaseView showcaseView = new ShowcaseView.Builder(UserMapsActivity.this)
                         .withNewStyleShowcase()
                         .setTarget(new ViewTarget(R.id.tipMapImageFinger, UserMapsActivity.this))
@@ -1289,7 +1029,6 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
                         // .singleShot(42)
                         .setShowcaseEventListener(new FirstTipHideListener(UserMapsActivity.this))
                         .build();
-
                 showcaseView.setDetailTextAlignment(Layout.Alignment.ALIGN_CENTER);
                 showcaseView.setTitleTextAlignment(Layout.Alignment.ALIGN_CENTER);
                 showcaseView.forceTextPosition(ShowcaseView.ABOVE_SHOWCASE);
@@ -1301,23 +1040,18 @@ public class UserMapsActivity extends ActionBarActivity implements GoogleMap.OnM
     }
 
 
-
-
     public boolean isCircleAreaMarkerInZero() {
        return  (circleAreaMarker!=null&&circleAreaMarker.getCenter().latitude ==0&&circleAreaMarker.getCenter().longitude ==0);
-
     }
+
 
     /*
         Class for help to demonstrate tips study show
      */
     public class FirstTipHideListener implements OnShowcaseEventListener {
-
-
         private Context context;
         FirstTipHideListener (Context context) {
             this.context = context;
-
         }
 
 

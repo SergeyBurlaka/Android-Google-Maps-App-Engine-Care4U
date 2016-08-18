@@ -9,16 +9,7 @@ import android.view.View;
 public class ToolbarStart extends Toolbar4Map {
 
     private final String employeeName;
-
-   /* public Thread getThread() {
-        return threadForIndicate;
-    }
-
-    Thread threadForIndicate;*/
-
-
     private Handler handler;
-
 
     ToolbarStart(UserMapsActivity context) {
         super(context);
@@ -28,25 +19,22 @@ public class ToolbarStart extends Toolbar4Map {
 
     @Override
     void createFace() {
-
         itemSpy.setVisible(false);
         itemStop.setVisible(false);
         //itemRefresh.setVisible(false);
         itemHelp.setVisible(false);
         // <!--- 25.07.2016
-        //TODO_+ set invisible new item- indicator
+        // Set invisible new item- indicator
         itemAlertIndicator.setVisible(false);
         animatedText();
-
         setRadiusFAndNameFViews();
        // loadTextGetLoc.setText("Getting "+employeeName+" location.");
         startIndicateThread();
-
     }
+
 
     private void animatedText() {
         handler = new Handler();
-
         for (int i = 100; i <= 6000; i=i+100) {
             if (interruptAnimateLoadText) return;
             final int finalI = i;
@@ -67,7 +55,6 @@ public class ToolbarStart extends Toolbar4Map {
     }
 
 
-
     @Override
      void setRadiusFAndNameFViews() {
         //"Input Radius" & "Name Field"
@@ -82,14 +69,12 @@ public class ToolbarStart extends Toolbar4Map {
 
     @Override
     void setRadiusFAndNameFViews(ToolbarFacesState state) {
-
     }
 
     @Override
     void onTransformerToolbar() {
         stopIndicateAlert ();
     }
-
 
 
     //Blinking of itemAlertIndicator
@@ -102,60 +87,45 @@ public class ToolbarStart extends Toolbar4Map {
 
             @Override
             public void run() {
-
                 try {
                     theBoolean = true;
                     while (true) {
-
                         sleep(500);
                         if (Thread.currentThread().isInterrupted()) break;
                         context.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-
                                 itemAlertIndicator.setVisible(theBoolean);
-
                             }
                         });
-
                         theBoolean = !theBoolean;
-
                     }
-
                     itemAlertIndicator.setVisible(false);
-
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         };
         threadForIndicate.start();
-
-
     }
 
+
     void stopIndicateAlert (){
-
         if ( threadForIndicate != null) threadForIndicate.interrupt();
-
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
                 itemAlertIndicator.setVisible(false);
             }
         }, 500);
-
     }
 
 
     @Override
     void createFaces(ToolbarFacesState state) {
-
     }
 
     @Override
     void defineSpyingItem() {
-
     }
-
 }

@@ -17,13 +17,12 @@ import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.gcm.GCMConsta
  */
 public abstract  class Toolbar4Map {
 
-     TextView loadTextGetLoc;
+    TextView loadTextGetLoc;
     UserMapsActivity context;
     MenuItem itemSpy, itemStop,/* itemRefresh ,*/ itemHelp;
     EditText getRadius ;
     TextInputLayout inputLayoutName;
     Circle circleAreaMarker;
-
     TextView employeeNameText;
     ProgressBar progressBar;
     String employeeSelected;
@@ -49,7 +48,6 @@ public abstract  class Toolbar4Map {
         this.getRadius = context.getRadius;
         this.inputLayoutName = context.inputLayoutName;
         this.circleAreaMarker = context.circleAreaMarker;
-
         this.employeeNameText = context.employeeNameText;
         this.loadTextGetLoc = context.textWithProgress;
 
@@ -87,14 +85,12 @@ public abstract  class Toolbar4Map {
         //TODO_ stop bar
         //TODO_ set visible of name / set radius
         // setProgressBarIndeterminateVisibility(false);
-         interruptAnimateLoadText = true;
+        interruptAnimateLoadText = true;
         progressBar.setVisibility(View.GONE);
-         loadTextGetLoc.setVisibility(View.GONE);
+        loadTextGetLoc.setVisibility(View.GONE);
         //itemRefresh.setVisible(true);
         // setSpyOrStopItemInCreate();
     }
-
-
 
 
     /*

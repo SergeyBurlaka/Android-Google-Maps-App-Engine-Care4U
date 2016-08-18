@@ -9,7 +9,6 @@ import org.json.JSONObject;
 
 public class CreateSpyMessage {
 
-
     // private final String typeSpy = "Alert";
     JSONObject message;
     JSONObject data;
@@ -27,9 +26,7 @@ public class CreateSpyMessage {
 
     }
 
-
-
-    public CreateSpyMessage (CircleLabel circleLabel, String managerEmail){
+   public CreateSpyMessage (CircleLabel circleLabel, String managerEmail){
         this.latitude = circleLabel.getLatitude();
         this.longitude = circleLabel.getLongitude();
         this.radius = circleLabel.getRadius();
@@ -48,23 +45,15 @@ public class CreateSpyMessage {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         message = new JSONObject();
         try {
             message.put("kind", MessageConstant.KIND_SPY);
             message.put("from",managerEmail);
             message.put("data",data);
-
-            //TODO_aborted: put "geofence" true or false
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         String spyMessage = message.toString();
-
         return spyMessage;
     }
-
-
 }

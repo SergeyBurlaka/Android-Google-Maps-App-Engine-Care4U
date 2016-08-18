@@ -5,12 +5,10 @@ package com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.manager.Empl
  */
 public class EmployeeLocation {
 
-
     private  String employeeEmail;
    // private  boolean isHere = false;
     private  double employeeLongitude = 0;
     private  double employeeLatitude = 0;
-
     private  double circleLongitude ;
     private   double circle1latitude;
     private  double radius;
@@ -24,17 +22,6 @@ public class EmployeeLocation {
     public void setEmployeeEmail(String employeeEmail) {
         this.employeeEmail = employeeEmail;
     }
-
-
-
-
-
-
-
-
-
-
-
 
     public double getEmployeeLongitude() {
         return employeeLongitude;
@@ -60,9 +47,6 @@ public class EmployeeLocation {
         return statusConst;
     }
 
-
-
-
     public void setStatusConst(int statusConst) {
         this.statusConst = statusConst;
     }
@@ -86,18 +70,4 @@ public class EmployeeLocation {
     public void setRadius(double radius) {
         this.radius = radius;
     }
-
-
-//public static String employeeEmail;
-    //public static boolean isHere = false;
-    //public static double employeeLongitude = 0;
-    //public static double employeeLatitude = 0;
-
-    //public static double circleLongitude;
-    //public  static double circle1latitude;
-    //public static double radius;
-
-    //public static int statusConst;
-
-
 }

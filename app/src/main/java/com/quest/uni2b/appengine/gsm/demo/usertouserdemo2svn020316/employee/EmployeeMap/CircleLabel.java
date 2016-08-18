@@ -7,9 +7,7 @@ package com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.employee.Emp
  */
 public class CircleLabel {
 
-
     public CircleLabel() {
-
     }
 
     public CircleLabel(double longitude, double latitude, double radius) {
@@ -25,7 +23,6 @@ public class CircleLabel {
     //public static double longitude;
     //public static double latitude ;
     //public static double radius;
-
 
 
     public double getLongitude() {
@@ -51,6 +48,4 @@ public class CircleLabel {
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
-
-
 }

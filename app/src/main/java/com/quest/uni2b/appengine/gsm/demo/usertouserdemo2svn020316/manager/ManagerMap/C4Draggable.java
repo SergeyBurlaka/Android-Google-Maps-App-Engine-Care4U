@@ -17,19 +17,12 @@ import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.R;
  */
 public class  C4Draggable extends C4Spy implements CSetStrategy {
 
-
-
     private CircleLabel circleLabel4E;
-
-
     private Marker   marker;
 
-
     C4Draggable(UserMapsActivity context) {
-
         super(context);
     }
-
 
     public Marker getMarker() {
         return marker;
@@ -41,9 +34,7 @@ public class  C4Draggable extends C4Spy implements CSetStrategy {
 
     @Override
     public Circle setCircle(GoogleMap map) {
-
         //if (MessageConstant.NO_SPY != getStatus())return;
-
         //<!--10:41
         //// TODO_: 15.07.2016
         circleLabel4E = getCircleLabel();
@@ -54,7 +45,6 @@ public class  C4Draggable extends C4Spy implements CSetStrategy {
                 .draggable(true)
 
         );
-
         // draw circle on map
         //
         Circle circleAreaMarker = map.addCircle(new CircleOptions()
@@ -66,13 +56,6 @@ public class  C4Draggable extends C4Spy implements CSetStrategy {
                 // Border width of the circle
                 .strokeWidth(2)
         );
-
-
-
-
         return circleAreaMarker;
-
     }
-
-
 }

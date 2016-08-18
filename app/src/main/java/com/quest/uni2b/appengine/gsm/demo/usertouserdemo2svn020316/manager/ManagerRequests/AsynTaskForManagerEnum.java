@@ -15,5 +15,4 @@ public enum AsynTaskForManagerEnum {
     DELETE_E_FROM_FRIEND,
     DELETE_LIST_E_FROM_FRIEND,
     STOP_SPY
-
 }

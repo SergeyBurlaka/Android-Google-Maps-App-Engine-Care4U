@@ -10,37 +10,27 @@ import android.util.Log;
  */
 public class MyServiseSetMarker extends Service {
 
+    public static final String BROADCAST_ACTION = "com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.Manager";
+    private Intent intent;
 
-        public static final String BROADCAST_ACTION = "com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.Manager";
-        private Intent intent;
-       // private final Handler handler = new Handler();
 
-        @Override public void onCreate() {
-
+     @Override
+    public void onCreate() {
         intent = new Intent(BROADCAST_ACTION);
     }
 
 
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d("FFFFF", "onStartCommand");
-        //someTask();
-        //intent.putExtra("time", new Date().toLocaleString());
-        //intent.putExtra("counter", String.valueOf(counter));
         sendBroadcast(intent);
         stopService(intent);
-
         return super.onStartCommand(intent, flags, startId);
     }
 
+
     @Override
     public IBinder onBind(Intent intent) {
-
-
         return null;
     }
-
-
-
-
 }
 

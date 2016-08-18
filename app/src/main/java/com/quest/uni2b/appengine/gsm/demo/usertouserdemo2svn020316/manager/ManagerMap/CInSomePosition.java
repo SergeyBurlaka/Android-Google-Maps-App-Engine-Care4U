@@ -20,7 +20,6 @@ public class CInSomePosition implements CSetStrategy {
     double radius;
     Marker   marker;
     UserMapsActivity context;
-
     public void setRadius(double radius) {
         this.radius = radius;
     }
@@ -28,26 +27,18 @@ public class CInSomePosition implements CSetStrategy {
         this.lLCircle = lLCircle;
     }
 
-
     CInSomePosition(UserMapsActivity context, LatLng lLCircle, double radius) {
         super();
         this.context = context;
         this.lLCircle = lLCircle;
         this.radius = radius;
-
     }
-
-
-
 
     @Override
     public Circle setCircle(GoogleMap map) {
-
-
         marker = map.addMarker(new MarkerOptions()
                 .position(lLCircle)
                 .draggable(true)
-
         );
 
         // Toast.makeText(getApplicationContext(),"GGGGGGGG"+String.valueOf(circleLabel4E.getRadius()), Toast.LENGTH_SHORT).show();
@@ -70,8 +61,4 @@ public class CInSomePosition implements CSetStrategy {
         return circleAreaMarker;
 
     }
-
-
-
-
 }

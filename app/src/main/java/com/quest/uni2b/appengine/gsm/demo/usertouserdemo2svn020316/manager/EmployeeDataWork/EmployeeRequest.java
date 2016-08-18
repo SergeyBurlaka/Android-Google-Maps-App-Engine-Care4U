@@ -5,11 +5,8 @@ package com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.manager.Empl
  */
 public class EmployeeRequest {
 
-
   private   String email;
-
-
-    private   Boolean box;
+  private   Boolean box;
 
     public EmployeeRequest(String email, Boolean box){
         this.email = email;
@@ -26,7 +23,6 @@ public class EmployeeRequest {
     public String getEmail() {
         return email;
     }
-
 
     public Boolean getBox() {
         return box;

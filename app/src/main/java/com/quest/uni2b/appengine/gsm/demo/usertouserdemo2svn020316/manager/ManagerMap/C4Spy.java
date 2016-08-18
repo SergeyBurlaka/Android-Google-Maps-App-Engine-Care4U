@@ -21,9 +21,7 @@ public class C4Spy implements CSetStrategy {
     SharedPreferences sharedGetCircle;
     //SharedPreferences sharedGetStatus;
     //Location mCurrentLocation;
-
     UserMapsActivity context;
-
 
     C4Spy(UserMapsActivity context ) {
 
@@ -39,7 +37,6 @@ public class C4Spy implements CSetStrategy {
 
     @Override
     public Circle setCircle(GoogleMap googleMap) {
-
         // if (getStatus () == MessageConstant.NO_SPY) return;
         CircleLabel circleLabel = getCircleLabel ();
         // public static int parseColor (String colorString)
@@ -47,7 +44,6 @@ public class C4Spy implements CSetStrategy {
                 .radius(circleLabel.getRadius())
                 .center(new LatLng(circleLabel.getLatitude(), circleLabel.getLongitude()))
                 .strokeColor(Color.BLACK)
-
                 // Fill color of the circle
                 // 0x represents, this is an hexadecimal code
                 // 55 represents percentage of transparency. For 100% transparency, specify 00.
@@ -62,52 +58,23 @@ public class C4Spy implements CSetStrategy {
     }
 
 
-
-
      /*
     *   Getter Circle
     *
     * */
-
     CircleLabel getCircleLabel (){
-
         CircleLabel circleLabelForDraw = new CircleLabel();
-
         //<!---13:54 22june16
-        //TODO_d+from4h 22june 19:00: 2>>
-        //TODO_d+from3:30h check status spy from sharedGetCircle preference
-        //TODO_d+from3:30h: if status not equals no_SPY - set circle
-
-
-        //Sh Pr "status_spy_view" is list of employee emails and theirs statuses
-        //sharedGetStatus = getSharedPreferences(MessageConstant.STATUS_SPY_VIEW,MODE_PRIVATE);
-      //  sharedGetStatus.getInt( employeeSelected, MessageConstant.NO_SPY);
-
-
-        //sharedGetCircle = getSharedPreferences(employeeSelected,MODE_PRIVATE);
-        //Using getXXX- with XX is type date you wrote to file "name_file"
         circleLabelForDraw.setLatitude(Double.longBitsToDouble(sharedGetCircle.getLong(MessageConstant.CIRCLE_LATITUDE, 0))) ;
         circleLabelForDraw.setLongitude(Double.longBitsToDouble(sharedGetCircle.getLong(MessageConstant.CIRCLE_LONGITUDE, 0)));
         circleLabelForDraw.setRadius(Double.longBitsToDouble(sharedGetCircle.getLong(MessageConstant.CIRCLE_RADIUS,0))); ;
-
         workAroundSetRadiusCircle (circleLabelForDraw);
-
-
         return circleLabelForDraw;
-
     }
 
     void workAroundSetRadiusCircle(CircleLabel circleLabelForDraw) {
         //Toast.makeText(getApplicationContext(),String.valueOf(circleLabelForDraw.getRadius()), Toast.LENGTH_SHORT).show();
         if(circleLabelForDraw.getRadius()==0) circleLabelForDraw.setRadius( START_RADIUS_VALUE);
-        //<!-- 28.07.2016
-        //TODO_later if lat=0 & long=0
-        //TODO_later set radius in current position
-       // if(circleLabelForDraw.getLatitude() == 0 &&mCurrentLocation!=null) {circleLabelForDraw.setLatitude(mCurrentLocation.getLatitude()); circleLabelForDraw.setLongitude(mCurrentLocation.getLatitude());}
-        //-->
     }
-
-
-
 
 }

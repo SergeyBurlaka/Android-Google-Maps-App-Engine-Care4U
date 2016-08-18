@@ -65,24 +65,14 @@ public class EmployeeMapActivity extends ActionBarActivity implements /*View.OnC
     public static final String NOTIFICATION_ID = "NOTIFICATION_ID";
     Location tempLocation;
     private Location mCurrentLocation;
-
-
     //for getting data location of circle
     private  CircleLabel circleLabel;
-
     private  MarkerOptions myLocation;
-
     private Bundle bundleForMap;
-
-
     private int openFromStatus;
-
     private SharedPreferences.Editor editorForCircle;
-
     private SharedPreferences shared;
-
     private SharedPreferences spForActiveActivityDetect;
-
    // private static final String PF_TAG = "ShowFullQuoteFragment";
 
 
@@ -91,7 +81,6 @@ public class EmployeeMapActivity extends ActionBarActivity implements /*View.OnC
         super.onCreate(savedInstanceState);
 
         spForActiveActivityDetect = getSharedPreferences(EmplConst4ShPrfOrIntent.EMPLOYEE_INFO, MODE_PRIVATE);
-
         // fix screen orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         /*
@@ -127,18 +116,13 @@ public class EmployeeMapActivity extends ActionBarActivity implements /*View.OnC
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-
         // Display icon in the toolbar
-
         // getSupportActionBar().setLogo(R.drawable.babycare);
         // Display icon in the toolbar
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.mipmap.care_i);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
-
         getSupportActionBar().setTitle("Care4U");
-
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()    //get map fragment
                 .findFragmentById(R.id.map);
@@ -179,14 +163,11 @@ public class EmployeeMapActivity extends ActionBarActivity implements /*View.OnC
     @Override
     public void onBackPressed()
     {
-
         if(spForActiveActivityDetect.getBoolean( "active", false) == false) {
             Intent cabinetManagerAct = new Intent(this, EmployeeCabinetActivity.class );
             finish();
             startActivity(cabinetManagerAct );
-
         }else {
-
             //only finish
             finish();
         }
@@ -227,22 +208,16 @@ public class EmployeeMapActivity extends ActionBarActivity implements /*View.OnC
      */
     @Override
     public void onMapReady(GoogleMap map) {
-
         mMap = map;
         //get our location
         //mMap = map;
         map.setMyLocationEnabled(true);
-
-
-
        //TODO_d+from2h 1>>
         //TODO_d+ check if map opened from notification
-
         if (openFromStatus == EmplConst4ShPrfOrIntent.FROM_NOTIFICATION)
         {
             addCircle(map);
         }
-
         else {
 
             if ( getSpyStatus() == EmplConst4ShPrfOrIntent.SPY) {
@@ -268,27 +243,20 @@ public class EmployeeMapActivity extends ActionBarActivity implements /*View.OnC
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
-
             case android.R.id.home:
-
-
                 if(spForActiveActivityDetect.getBoolean( "active", false) == false) {
                     Intent cabinetManagerAct = new Intent(this, EmployeeCabinetActivity.class );
                     finish();
                     startActivity(cabinetManagerAct );
 
                 }else {
-
                     //only finish
                     finish();
                 }
-
                 return true;
             case R.id.refreshEmployeeMap:
-
                 reloadActivity();
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -296,13 +264,10 @@ public class EmployeeMapActivity extends ActionBarActivity implements /*View.OnC
 
 
     public void reloadActivity (){
-
        // ManagerCabinetListActivity.flagNewRequest = true;
         Intent intent = getIntent();
         finish();
         startActivity(intent);
-
-
     }
 
 
@@ -314,38 +279,18 @@ public class EmployeeMapActivity extends ActionBarActivity implements /*View.OnC
     }
 
     private void getNewCircleLabelFromNotification (){
-
         circleLabel = new CircleLabel();
-
-
         //<!---21june16
-        //TODO_d+: 1
-        //TODO_done+: get data from intent
-
+        //get data from intent
         Intent myIntent = getIntent();
         circleLabel.setLatitude( myIntent.getDoubleExtra(MessageConstant.CIRCLE_LATITUDE, 0));
         circleLabel.setLongitude( myIntent.getDoubleExtra(MessageConstant.CIRCLE_LONGITUDE, 0));
         circleLabel.setRadius( myIntent.getDoubleExtra(MessageConstant.CIRCLE_RADIUS, 0));
-
-
     }
 
 
     private void getNewCircleLabelFromShPrfnce (){
-
         circleLabel = new CircleLabel();
-        //TODO_d+from2h 3>>
-        // TODO_d+ check map opened from cabinet
-        // TODO_d+  if map opened from cabinet {...
-
-        //<!--- 22june16 14:09
-        //TODO_d+from2h_total 4>>
-        //TODO_d+ check status if employee SPY - set circle
-
-       // SharedPreferences shared = getSharedPreferences("info",MODE_PRIVATE);
-        //Using getXXX- with XX is type date you wrote to file "name_file"
-        // String string_temp = shared.getString("employee id","");
-
         shared = getSharedPreferences(EmplConst4ShPrfOrIntent.CIRCLE_LOCATION,MODE_PRIVATE);
         //Using getXXX- with XX is type date you wrote to file "name_file"
         circleLabel.setLatitude(Double.longBitsToDouble(shared.getLong(EmplConst4ShPrfOrIntent.CIRCLE_LATITUDE, 0))) ;
@@ -355,13 +300,10 @@ public class EmployeeMapActivity extends ActionBarActivity implements /*View.OnC
 
 
     private void addCircle(GoogleMap map){
-
-
         //Set marker in the center of circle. Employeee must be in circle.
         // set marker (will be a center to circle)
         marker = map.addMarker(new MarkerOptions()
                 .position(new LatLng(circleLabel.getLatitude(), circleLabel.getLongitude()))
-
         );
         // draw circle on map
         //
@@ -370,7 +312,6 @@ public class EmployeeMapActivity extends ActionBarActivity implements /*View.OnC
                 .center(new LatLng(circleLabel.getLatitude(), circleLabel.getLongitude()))
                 .radius(circleLabel.getRadius())
                 .strokeColor(Color.BLACK)
-
                 // Fill color of the circle
                 // 0x represents, this is an hexadecimal code
                 // 55 represents percentage of transparency. For 100% transparency, specify 00.
@@ -380,7 +321,6 @@ public class EmployeeMapActivity extends ActionBarActivity implements /*View.OnC
 
                 // Border width of the circle
                 .strokeWidth(2)
-
         );
 
 
@@ -392,17 +332,10 @@ public class EmployeeMapActivity extends ActionBarActivity implements /*View.OnC
                 //.bearing(targetBearing)
                 //.tilt(20)
                 .build();
-
         // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mMarker.getPosition(), 14));
-
         CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
         map.animateCamera(cameraUpdate);
-
-
-
     }
-
-
 
 
     public void onConnectionFailed(ConnectionResult arg0){
@@ -411,26 +344,12 @@ public class EmployeeMapActivity extends ActionBarActivity implements /*View.OnC
 
 
     public void onConnected(Bundle bundle){
-
-       // Toast.makeText(getApplicationContext(),"connected", Toast.LENGTH_SHORT).show();
-
-       /*
-        LocationServices.FusedLocationApi.requestLocationUpdates(
-                mGoogleApiClient, mLocationRequest, this);*/
-
-
         mCurrentLocation = LocationServices
                 .FusedLocationApi
                 .getLastLocation( mGoogleApiClient );
-
-
         if(markerMyLoc!=null)markerMyLoc.remove();
 
       markerMyLoc = mMap.addMarker(myLocation.position(new LatLng(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude())).title("I'm"));
-        // here is marker Adding code
-
-
-        //-->
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(markerMyLoc.getPosition())
@@ -439,13 +358,9 @@ public class EmployeeMapActivity extends ActionBarActivity implements /*View.OnC
                 //.bearing(targetBearing)
                 //.tilt(20)
                 .build();
-
         // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mMarker.getPosition(), 14));
-
         CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
         mMap.animateCamera(cameraUpdate);
-
-
     }
 
 
@@ -459,7 +374,6 @@ public class EmployeeMapActivity extends ActionBarActivity implements /*View.OnC
                 .copy(Bitmap.Config.ARGB_8888, true);
 
         Typeface tf = Typeface.create("Helvetica", Typeface.BOLD);
-
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.RED);
@@ -493,19 +407,12 @@ public class EmployeeMapActivity extends ActionBarActivity implements /*View.OnC
     public static int convertToPixels(Context context, int nDP)
     {
         final float conversionScale = context.getResources().getDisplayMetrics().density;
-
         return (int) ((nDP * conversionScale) + 0.5f) ;
-
     }
 
 
     public void onConnectionSuspended(int arg0){
-
     }
-
-
-
-
 }
 
 

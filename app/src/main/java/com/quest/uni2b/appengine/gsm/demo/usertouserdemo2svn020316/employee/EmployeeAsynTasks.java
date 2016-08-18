@@ -20,24 +20,16 @@ public class EmployeeAsynTasks  extends AsyncTask<Void, Void, String> {
     //private GoogleCloudMessaging gcm;
     private static EmployeeApi employeeApi = null;
     private GoogleCloudMessaging gcm;
-
     //reference to activity from which we make request
     private Context context;
-
     private Employee employee;
     private Long employeeeId;
-
     //Enum class
     private AsynTaskForEmployee task;
     private String managerEmail;
     private double [] dataLocation = new double[]{0,0};
     // TODO_: change to your own sender ID to Google Developers Console project number, as per instructions above
     private static final String SENDER_ID = "414291776712";
-
-
-
-
-
 
     //for creating response from request giving emploee location now
     //AsynTask = TAKE_LOCATION
@@ -46,25 +38,15 @@ public class EmployeeAsynTasks  extends AsyncTask<Void, Void, String> {
         this.employeeeId = employeeId;
         this.task = task;
         this.dataLocation = datalocation;
-
-
     }
 
     //for creating response from request giving emploee location now
     //AsynTask = TAKE_LOCATION
     public EmployeeAsynTasks ( Long employeeId,double[] datalocation,AsynTaskForEmployee task) {
-
         this.employeeeId = employeeId;
         this.task = task;
         this.dataLocation = datalocation;
-
-
     }
-
-
-
-
-
 
 
     // CHECK_INFO task
@@ -72,8 +54,6 @@ public class EmployeeAsynTasks  extends AsyncTask<Void, Void, String> {
         this.context = context;
         this.employeeeId = employeeId;
         this.task = task;
-
-
     }
 
     //For set new reg id for new another devices
@@ -89,7 +69,6 @@ public class EmployeeAsynTasks  extends AsyncTask<Void, Void, String> {
     }
 
 
-
     @Override
     protected String doInBackground(Void... params) {
         if (employeeApi == null) {
@@ -103,14 +82,12 @@ public class EmployeeAsynTasks  extends AsyncTask<Void, Void, String> {
 
         switch (task) {
             case SOS:
-
             try {
                 employeeApi.hELP(employeeeId).execute();//save employee in cloud data store
             } catch (IOException e) {
                 e.printStackTrace();
              //   msg = "Error: " + e.getMessage();
                 msg = "unknown error";
-
             }
                 break;
             case GET_Hired:
@@ -134,11 +111,8 @@ public class EmployeeAsynTasks  extends AsyncTask<Void, Void, String> {
 
                 break;
 
-
             case SEND_SPY_STATUS:
-
                 try {
-
                     // SEND_SPY_STATUS is not outside message.
                     // It is for  sending different information about employee life.
                      //ManagerEmail is not manager email. It is the message!
@@ -150,7 +124,6 @@ public class EmployeeAsynTasks  extends AsyncTask<Void, Void, String> {
                 break;
 
             case TAKE_LOCATION:
-
                 //employeeApi.sendEmployeetLocation(dataLocation, employeeeId[0],employeeeId[1] )
                 try {
                     employeeApi.sendEmployeetLocation(employeeeId, dataLocation[0],dataLocation[1]).execute();
@@ -160,9 +133,7 @@ public class EmployeeAsynTasks  extends AsyncTask<Void, Void, String> {
                 break;
 
             case SET_NEW_REG_ID:
-
                 String msgRegId = "";
-
                 try {
                     if (gcm == null) {
                         gcm = GoogleCloudMessaging.getInstance(context);
@@ -187,12 +158,11 @@ public class EmployeeAsynTasks  extends AsyncTask<Void, Void, String> {
                     e.printStackTrace();
                     msg = "Error: " + e.getMessage();
                 }
-
                 break;
-
         }
         return msg;
     }
+
 
     @Override
     protected void onPostExecute(String msg) {

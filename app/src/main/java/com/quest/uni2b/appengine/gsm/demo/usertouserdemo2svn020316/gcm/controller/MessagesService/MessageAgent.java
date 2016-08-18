@@ -1,7 +1,6 @@
 package com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.gcm.controller.MessagesService;
 
 import android.annotation.TargetApi;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -45,7 +44,6 @@ public class MessageAgent {
     private String emailFrom;
     private ParseSpyMessage parseSpyMessage;
     private GcmIntentService context;
-    // Идентификатор уведомления
     private static final int NOTIFY_ID = 101;
     private long myIdInBase = 0;
     //for work with servise to put marker
@@ -66,10 +64,7 @@ public class MessageAgent {
     //for control GPS and FLIGHT MODE IN EMPLOYEE
     private int status4Control;
     private SharedPreferences  sharedGetStatus;
-
     private SharedPreferences.Editor saveStatusRequestLoc;
-
-
     //For check isOnlineOffline employee
     private SharedPreferences sp4Emploee;
     private SharedPreferences.Editor sp4EmploeeEdit;
@@ -79,6 +74,7 @@ public class MessageAgent {
                 this.context = context;
                 this.message = message;
             }
+
 
     public void processMessage(){
             try {
@@ -94,26 +90,17 @@ public class MessageAgent {
         }
     }
 
+
     private void distributeTask (int kindMessage, JSONObject reader) {
         String tempMessage;
        //JSONObject readerInTask;
         // readerInTask = new JSONObject(message);
         //kindMessage is detecting constant
         switch (kindMessage){
-
        //*** Message to employee
         case MessageConstant.KIND_SPY:
-
-            //<!-- 28.07.2016 12:25
-            //TODO_done_form1hour_of_debug_in15:00 >> ---2.1----putBoolean(EmplConst4ShPrfOrIntent.REQ_ACTIVE_SPY, true)
-            // TODO_d+30 min save in "info" shared Preference requestToEmployeeSpy boolean true
-           // saveStatusRequestLoc = context.getSharedPreferences(EmplConst4ShPrfOrIntent.INFO_REQ_SPY, context.MODE_PRIVATE).edit();
-            //saveStatusRequestLoc.putBoolean(EmplConst4ShPrfOrIntent.REQ_ACTIVE_SPY, true).commit();
-
             saveStatusRequestLoc = context.getSharedPreferences(EmplConst4ShPrfOrIntent.INFO_REQ_LOC, context.MODE_PRIVATE).edit();
             saveStatusRequestLoc.putBoolean(EmplConst4ShPrfOrIntent.REQ_ACTIVE_LOC, true).commit();
-            //-->
-
             try {
                 parseSpyMessage = new ParseSpyMessage(reader.getJSONObject("data"),context);
                 //get data about circle - label  from manager message into special object
@@ -126,6 +113,7 @@ public class MessageAgent {
                 e.printStackTrace();
             }
             break;
+
         case MessageConstant.SIMPLE_MESSAGE:
             try {
               tempMessage =  reader.getString("text");
@@ -139,24 +127,10 @@ public class MessageAgent {
         //TODO_aborted set new name EXIT_ENTER_MESSAGE
             case MessageConstant.OUTSIDE_MESSAGE:
                 try {
-                    //<!---
-                    // TODO_: 14.07.2016
-                    //TODO_d+52min reader.getJSONObject("data")
-                   //TODOd+52min data.getInt("status_spy"  )
-                    //TODOd+52min if status CONTROL 4 GPS_DISABLE or AIR PLAN MODE
-                   // if ( isProblem4GPS(reader)) return;
-
-                    //<!-- 15:31 //29.07.2016
-                    //TODO_ 2.1
-                    //TODO_ if win check status if  "DISAPPEARED" ->1 change to -->0
-
-                    //-->29.07.2016
-
                         ShowToManagerNotifications showToManager = new ShowToManagerNotifications( parseMessage ( reader));
                     if ( isProblem4GPS(reader)||UserMapsActivity.noMore4Notification||getStatusSpy())return;
                    // if(UserMapsActivity.noMore4Notification)return;
                         showToManager.ShowNotification(context);
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -168,19 +142,13 @@ public class MessageAgent {
             //After that as Employee have got this notification, app is calling method getGPSLocation()
             //And send data to manager
             case MessageConstant.GIVE_LOCATION:
-
                 //<!-- 28.07.2016 12:25
-                //TODO_done_form1hour_of_debug_in15:00 >> ---1.1---putBoolean(EmplConst4ShPrfOrIntent.REQ_ACTIVE_SPY
-                // TODO_+35 min save in "info" shared Preference requestToEmployeeLoc boolean true
+                // save in "info" shared Preference requestToEmployeeLoc boolean true
                 saveStatusRequestLoc = context.getSharedPreferences(EmplConst4ShPrfOrIntent.INFO_REQ_LOC, context.MODE_PRIVATE).edit();
                 saveStatusRequestLoc.putBoolean(EmplConst4ShPrfOrIntent.REQ_ACTIVE_LOC, true).commit();
-                //-->
-
-                //get SharedPreferences from getSharedPreferences("name_file", MODE_PRIVATE)
                 SharedPreferences shared = context.getSharedPreferences("info",Context.MODE_PRIVATE);
                 //Using getXXX- with XX is type date you wrote to file "name_file"
                 String string_temp = shared.getString("employee id", "");
-
                 if ( string_temp ==""){
                  //   Toast.makeText(context, "You have not employee acc!", Toast.LENGTH_LONG).show();
                 }else {
@@ -189,7 +157,6 @@ public class MessageAgent {
                 /*
                 //Make request to server for task sending message to manager client with employee location
                 new EmployeeAsynTasks(context, myIdInBase,  getGPSLocation(), AsynTaskForEmployee.TAKE_LOCATION).execute();
-
                     */
                 getGPSLocation();
                 break;
@@ -198,31 +165,18 @@ public class MessageAgent {
             // info about employee current position on map
             case  MessageConstant.TAKE_LOCATION:
                 try {
-
-
-
-                    //toggle4AlarmIsEOnline();
-                  //  IsPresent.setIsPresent(MessageConstant.IS_PRESENT_TRUE);
-                   // Toast.makeText(context, "put is present true isPresent=  "+ IsPresent.isPresent, Toast.LENGTH_LONG).show();
-                    //For set check indicator to detective if online or offline employee
-                   // AlarmServiceReceiver.toggleShPr4EPresent( emailFrom, true, context);
-                    //If we have answer from employee. Set flag for detect if employee online
-                   // if(AlarmServiceReceiver.isPresent==-1) AlarmServiceReceiver.isPresent = 1;
-                   // Toast.makeText(context,"TAKE LOC isPresent = "+AlarmServiceReceiver.isPresent,Toast.LENGTH_SHORT).show();
-
                     double latitude =  reader.getDouble("latitude");
                     double longitude = reader.getDouble("longitude");
                    // Toast.makeText(context, (int) latitude +"/"+(int) longitude, Toast.LENGTH_LONG).show();
-
                     setMarker(latitude,longitude);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 break;
+
             //<!--
-            //TODO_DONE+_01_07_16: case NEW_E_REQ after get this message create notification new e request.
-            //It open manager cabinet activity.
-            //Also it have some message. For example :"you have 2 new request"
+            //It opens manager cabinet activity.
+            //Also it haves some message. For example :"you have 2 new request"
             //New notification rewrites old, because the same notification id
             case MessageConstant.NEW_EMPLOYEE_REQUEST:
                 try {
@@ -230,16 +184,13 @@ public class MessageAgent {
                 //    Toast.makeText(context,"I have new requestsn " + amountReq+" From "+emailFrom, Toast.LENGTH_LONG).show();
                         ShowNewEReqToM showNewEReqToM = new ShowNewEReqToM( context, emailFrom, amountReq);
                         showNewEReqToM.ShowNotification();
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 break;
-            //-->
 
             //<!---
-            //TODO_done+08/june/16 case INFO_TO_EMPLOYEE_REQ
-            //TODO_ show notification - you are confirmed, or you are deleted from request
+            //show notification - you are confirmed, or you are deleted from request
             case MessageConstant.INFO_TO_EMPLOYEE_REQ:
 
         String tempMssg = "NONE";
@@ -253,52 +204,29 @@ public class MessageAgent {
                 break;
 
             //<!---18:00 17june16
-            //TODO_d+:1-----
-            //TODO_d+33min: case kind with id STOP_SPY
-            //TODO_done+33min: just stop spy service in employee client
-
+            //just stop spy service in employee client
             case MessageConstant.STOP_SPY:
                 //<!--14 40 23june 16
-                //TODO_aborted 2>>
-                //TODO_aborted CHECK if geofence id - stop geofence service
-                //-->
                 context.stopService(new Intent(context,GPSService.class));
-            //<--
-            //TODO_aborted:2-----
-            //TODO_aborted: after send OUTSIDE_MESSAGE with id status STOPPING SPY//<--
                 break;
     }
     }
 
-    private void sendFailedMessageToM() {
-       //<!-- 16:55
-        // TODO_: 14.07.2016
-        //TODO_aborted >>1.2
-        //TODO_aborted send message to m SPY_IS_NOT_BEGIN FLIGHT MODE
-    }
-
-
-
 
     private void reportProblem() {
-        //TODO_d+1h11min skip parsing and go  to show notification
-        //TODO_d+1h11min  show special notification using ShowControl4E//
+        //skip parsing and go  to show notification
+        // show special notification using ShowControl4E//
         ShowControl4E showToManager = new ShowControl4E(status4Control, emailFrom );
         showToManager.ShowNotification(context);
-        //TODO_DONE_ALL_FROM_TOTAL_TIME_3H >>>>*--2--*
-        //TODO_d+1:30 send to broadcast receiver 4 show alert dialog in user map
-        //TODO_d+1:30  private int status4Control;
+        // send to broadcast receiver for show alert dialog in user map
         intent = new Intent(GET_E_LOCATION_ACTION);
-        //intent.putExtra("latitude", latitude);
-        ///intent.putExtra("longitude", longitude);
-
         intent.putExtra("status4Alert", status4Control);
         context.sendBroadcast(intent);
-        //-->
     }
 
+
     private EmployeeLocation parseMessage(JSONObject reader) throws JSONException {
-        //TODO_d+ parse message
+        //parse message
         //for getting new status in  employees recycler view
         ManagerCabinetListActivity.flagNewRequest =true;
         parseEmployeeOutsideMessage = new ParseEmployeeOutsideMessage(reader.getJSONObject("data"), context,emailFrom);
@@ -309,17 +237,13 @@ public class MessageAgent {
         return employeeLocation;
     }
 
+
     private boolean isProblem4GPS(JSONObject reader) {
         //<!---
-        // TODO_: 14.07.2016
-        // TODO_DONE_ALL_FROM_TOTAL_TIME_3H >> >>*---1.2--*
-        //TODO_d+45min reader.getJSONObject("data")
-        //TODO_d+45min data.getInt("status_spy"  )
-        //TODO_d+45min if status spy about CONTROL 4 GPS or AIR PLAN MODE
+        // 14.07.2016
         try {
             JSONObject data = reader.getJSONObject("data");
               status4Control = data.getInt("status_spy"  );
-
             //it must be from 4000 to 4999
             if(1 == (status4Control/MessageConstant.GPS_FACE_CONTROL)) {
                 reportProblem ();
@@ -330,6 +254,7 @@ public class MessageAgent {
         }
             return  false;
     }
+
 
     private void startGPSService (JSONObject data) throws JSONException {
         //just in case service is running
@@ -344,6 +269,7 @@ public class MessageAgent {
         context.startService(intent1);
     }
 
+
     private void startGeofencingService (){
        // Toast.makeText(context,"connected", Toast.LENGTH_SHORT).show();
         Intent geofencingService = new Intent(context, GeofencingService.class);
@@ -353,9 +279,6 @@ public class MessageAgent {
         context.startService(geofencingService);
       //  context.startService(new Intent(context,GPSService.class));
     }
-
-
-
 
 
     private void setMarker(double latitude, double longitude) {
@@ -371,31 +294,10 @@ public class MessageAgent {
     }
 
 
-
     private void getGPSLocation(){
-         //<!--- 12 jule 16 12:20
-        // >>1
-        //TODO_done+ check if airplane mode on
-        //TODO_done+ and toggle airplane mode off
-      //  changedAirMode();
-       /* if(isAirplaneModeOn(context)){
-            Toast.makeText(context,"toggle air mode",Toast.LENGTH_LONG).show();;
-           Settings.System.putInt(
-                   context.getContentResolver(),
-                   Settings.System.AIRPLANE_MODE_ON, 0);
-          // changedAirMode();
-       }*/
-        //-->
-       // Toast.makeText(context, "Get ELOC request", Toast.LENGTH_LONG).show();
-       // double latitude =0;
-        //double longitude = 0;
-        // create new service
-        // start new service
-        //set context to intent to give it to service
         Intent  i = new Intent(context, GetLocationService.class);
         i.putExtra("id", myIdInBase);
         context.startService(i);
-        //-----<
     }
 
     /**
@@ -416,7 +318,8 @@ public class MessageAgent {
         }
     }
 
-    public void changedAirMode () {
+
+   /* public void changedAirMode () {
             try {
                 Intent intent = new Intent(android.provider.Settings.ACTION_AIRPLANE_MODE_SETTINGS);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -430,39 +333,14 @@ public class MessageAgent {
                    // Toast.makeText(context, "not_able_set_airplane", Toast.LENGTH_SHORT).show();
                 }
             }
-        }
+        }*/
+
 
     public boolean getStatusSpy() {
        SharedPreferences sharedGetCircle = context.getSharedPreferences(emailFrom,context.MODE_PRIVATE);
         if (MessageConstant.ENABLE == sharedGetCircle.getInt(MessageConstant.STOP_NOTIFICATIONS,MessageConstant.DISABLE)) return true;
         return false;
     }
-
-
-   /* public  void toggleShPr4EPresent(String employeeEmail) {
-
-        sp4EmploeeEdit = context.getSharedPreferences(employeeEmail, context.MODE_PRIVATE).edit();
-
-
-
-        Toast.makeText(context, "IN MESS_AGANT_ employeeEmail= "+employeeEmail, Toast.LENGTH_LONG).show();
-
-
-        sp4EmploeeEdit.putInt(MessageConstant.IS_PRESENT, 1988  );
-        sp4EmploeeEdit.commit();
-
-
-    }*/
-
-
-    /*private void toggle4AlarmIsEOnline() {
-         Toast.makeText(context, "toggle4AlarmIsEOnline inMessg Agent", Toast.LENGTH_LONG).show();
-       SharedPreferences.Editor alarmShPEditor = context.getSharedPreferences( MessageConstant.IS_ONLINE_ALARM, context.MODE_PRIVATE).edit();
-        alarmShPEditor.putInt(MessageConstant.GET_ALTERNATE, MessageConstant.INTERRUPT);alarmShPEditor.commit();
-
-    }*/
-
-
 
 }
 

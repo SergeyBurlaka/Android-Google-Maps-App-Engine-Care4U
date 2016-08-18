@@ -14,48 +14,25 @@ import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.manager.Emplo
 public class RecyclerClickListener implements DataManager.OnItemClickListener {
         private ManagerCabinetListActivity activity;
         private  Long managerId;
-  //  private  boolean deleteEmployeeBoolean;
-    //<!---
-    //TODO_done+: create constructor with parametr CabinLActvt actvt , +managerId
 
+    //constructor with param CabinLActvt actvt , +managerId
     public RecyclerClickListener (ManagerCabinetListActivity activity, Long managerId){
         this.activity = activity;
         this.managerId = managerId;
-
     }
-
-
-    //<--
 
 
     @Override
     public void onItemClick(EmployeeOfM item) {
-
-        //<!---09/june/16_
-        //TODO_done10min : create alert dialog do u wante delete employee y/n?      t/15:05
-        //TODO_done+1min: create new asynTAsk for manager with task deleteEmployee From Friend  t/15:15
-        //TODO_done+4min reload cabinet manager list activity  t15:17
-
         createAlertDialog (item);
-
-
-
-
-
-        //<--
-
-
     }
 
 
-        private void createAlertDialog (final  EmployeeOfM item){
-
+    private void createAlertDialog (final  EmployeeOfM item){
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                     activity);
-
             // set title
             alertDialogBuilder.setTitle("Your Title");
-
             // set dialog message
             alertDialogBuilder
                     .setMessage("Click yes to exit!")
@@ -65,13 +42,9 @@ public class RecyclerClickListener implements DataManager.OnItemClickListener {
                             // if this button is clicked, close
                             // current activity
                            // MainActivity.this.finish();
-
                             new AsynTaskForManager(activity, managerId, item.getUserEmail(), AsynTaskForManagerEnum.DELETE_E_FROM_FRIEND  ).execute();
-
-
                            // deleteEmployeeBoolean = true;
                             dialog.cancel();
-
                         }
                     })
                     .setNegativeButton("No",new DialogInterface.OnClickListener() {
@@ -82,16 +55,9 @@ public class RecyclerClickListener implements DataManager.OnItemClickListener {
                             dialog.cancel();
                         }
                     });
-
             // create alert dialog
             AlertDialog alertDialog = alertDialogBuilder.create();
-
             // show it
             alertDialog.show();
-
         }
-
-
-
-
 }

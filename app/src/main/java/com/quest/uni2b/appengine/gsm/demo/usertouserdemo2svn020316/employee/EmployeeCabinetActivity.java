@@ -26,7 +26,6 @@ public class EmployeeCabinetActivity extends AppCompatActivity implements View.O
 
     private GoogleCloudMessaging gcm;
     private static final String SENDER_ID = "414291776712";
-
     private String string_temp, managerEmailStr;
     private long myIdInBase;
     private EditText managerEmail;
@@ -36,58 +35,34 @@ public class EmployeeCabinetActivity extends AppCompatActivity implements View.O
     private SharedPreferences sPref;
     private TextView nik;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // Store our shared preference
         SharedPreferences sp = getSharedPreferences(EmplConst4ShPrfOrIntent.EMPLOYEE_INFO, MODE_PRIVATE);
         SharedPreferences.Editor ed = sp.edit();
         ed.putBoolean("active", true);
         ed.commit();
-
-
-
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_employee_cabinet);
         h = new Handler();
-
-
         nik = (TextView) findViewById(R.id.textViewNik);
-
         managerEmail =  (EditText) findViewById(R.id.getManagerEmailTxt);
-
         Intent intent = getIntent();
-
         if (!(intent.getStringExtra("nik") ==null))
         nik.append(intent.getStringExtra("nik") );
 
-
-
-        //<---
-        // set button out
-
-     //  findViewById( R.id.outButton).setOnClickListener(this);
-
-
-
-
-        //<---
-
-        // Find the toolbar view inside the activity layout
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarEmployeeCabinet);
         // Sets the Toolbar to act as the ActionBar for this Activity window.
         // Make sure the toolbar exists in the activity and is not null
         setSupportActionBar(toolbar);
-
         // getSupportActionBar().setLogo(R.drawable.babycare);
         // Display icon in the toolbar
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.mipmap.care_i);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
-
         getSupportActionBar().setTitle("Care4U");
-
 
         //Get id inf (id in base on server) from Sh. Prf.
         // Idea is this data of personal unique id in base of server let you to make request to server.
@@ -99,23 +74,14 @@ public class EmployeeCabinetActivity extends AppCompatActivity implements View.O
         if ( string_temp ==""){
            // Toast.makeText(this, "You have not employee acc!", Toast.LENGTH_LONG).show();
             // You can not to use buttons if you have not id info in Sh. Pref.
-
         }else {
             //id is Long variable
             myIdInBase = Long.parseLong(string_temp);
             findViewById(R.id.getHiredButton).setOnClickListener(this);
             findViewById(R.id.SOSButton).setOnClickListener(this);
            // findViewById(R.id.checkEmployeeInfoButtn).setOnClickListener(this);
-
         }
-
     }
-
-
-
-
-
-
 
 
     // Menu icons are inflated just as they were with actionbar
@@ -132,89 +98,41 @@ public class EmployeeCabinetActivity extends AppCompatActivity implements View.O
         switch(item.getItemId()){
 
             case R.id.action_out_employee:
-
                 sPref = getSharedPreferences("enter", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sPref.edit();
                 editor.putBoolean("IsIn", false);
                 editor.commit();
-
                 Intent newI = new Intent( this, Main2Activity.class);
                 newI.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 finish();
                 startActivity(newI);
                // finish();
-
-
-
-
                 // your action goes here
                 return true;
 
-
-
-
     //<!--- 14:39 22 june 16
-    //TODO_d+20min: set onOptin Selected
-    //TODO_d+: set listener to map_item in toolbar
-    //TODO_d+ : this item will open map
-    //TODO_d+ : but set status from cabinet opened to shared preference before
-
+    //set onOptin Selected
+    //set listener to map_item in toolbar
+    // this item will open map
+    // but set status from cabinet opened to shared preference before
             case R.id.mapOpen:
-
                 Intent mapIntent = new Intent(this, EmployeeMapActivity.class);
                 mapIntent.putExtra(EmplConst4ShPrfOrIntent.OPEN_MAP_FROM , EmplConst4ShPrfOrIntent.FROM_CABINET);
                 startActivity(mapIntent);
-
                 return  true;
-
             case R.id.action_settings_employee:
-
-                //TODO *-later-*
-                //TODO_later create activity to set telephons
-
                 return true;
-
-           /*
-            case R.id.action_rewrite_new_device_e:
-
-
-
-                //Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-
-               new EmployeeAsynTasks ( this, myIdInBase, "MATRIX_NOTHING", AsynTaskForEmployee.SET_NEW_REG_ID).execute();
-
-                return true;
-                */
-
-
-           /* case R.id.action_stop_gps_service :
-
-                stopService(new Intent(EmployeeCabinetActivity.this,GPSService.class));
-
-                return true;
-                */
-
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
 
-
-
-
-
-
-
-
     @Override
     public void onClick(View v) {
-
         switch (v.getId()){
             case R.id.getHiredButton:
-
                 if (checkEmail()) return;
-
                 new EmployeeAsynTasks(this, myIdInBase, managerEmailStr,AsynTaskForEmployee.GET_Hired).execute();
                 break;
 
@@ -229,33 +147,6 @@ public class EmployeeCabinetActivity extends AppCompatActivity implements View.O
                     e.printStackTrace();
                 }
                 break;
-
-
-           /*
-            case R.id.checkEmployeeInfoButtn :
-                new EmployeeAsynTasks(this,myIdInBase,AsynTaskForEmployee.CHECK_INFO  ).execute();
-
-
-                break;
-                */
-
-            /*
-            case R.id.outButton:
-
-                sPref = getSharedPreferences("enter",MODE_PRIVATE);
-                SharedPreferences.Editor editor = sPref.edit();
-                editor.putBoolean("IsIn", false);
-                //editor.putBoolean("IsManager",false);
-                editor.commit();
-
-                Intent newI = new Intent( this, Main2Activity.class);
-                newI.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(newI);
-
-                finish();
-
-                break;
-                */
         }
 
     }
@@ -268,8 +159,8 @@ public class EmployeeCabinetActivity extends AppCompatActivity implements View.O
             return true;
         }
         return false;
-
     }
+
 
     private void call() throws InterruptedException {
         if (t == null){
@@ -289,6 +180,7 @@ public class EmployeeCabinetActivity extends AppCompatActivity implements View.O
 
 
     }
+
 
     @Override
     public void run() {
@@ -314,7 +206,6 @@ public class EmployeeCabinetActivity extends AppCompatActivity implements View.O
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         // Store our shared preference
         SharedPreferences sp = getSharedPreferences(EmplConst4ShPrfOrIntent.EMPLOYEE_INFO, MODE_PRIVATE);
         SharedPreferences.Editor ed = sp.edit();
@@ -322,49 +213,6 @@ public class EmployeeCabinetActivity extends AppCompatActivity implements View.O
         ed.commit();
 
     }
-
-
-
-
-
-
-/*
-    private void ShowNotification (){
-        // context = getApplicationContext();
-
-
-        Intent notificationIntent = new Intent(this, GcmIntentService.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(this,
-                0, notificationIntent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
-
-        Resources res = this.getResources();
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-
-        builder.setContentIntent(contentIntent)
-                .setSmallIcon(R.drawable.spy_icon)
-                        // большая картинка
-                        //.setLargeIcon(BitmapFactory.decodeResource(res, R.drawable.hungrycat))
-                        //.setTicker(res.getString(R.string.warning)) // текст в строке состояния
-                .setTicker("Последнее китайское предупреждение!")
-                .setWhen(System.currentTimeMillis())
-                .setAutoCancel(true)
-                        //.setContentTitle(res.getString(R.string.notifytitle)) // Заголовок уведомления
-                .setContentTitle("Напоминание")
-                        //.setContentText(res.getString(R.string.notifytext))
-                .setContentText("Пора покормить кота"); // Текст уведомления
-
-        // Notification notification = builder.getNotification(); // до API 16
-        Notification notification = builder.build();
-
-        NotificationManager notificationManager = (NotificationManager) this
-                .getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(NOTIFY_ID, notification);
-
-
-
-    }*/
-
 
 }
 
