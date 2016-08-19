@@ -2,6 +2,10 @@
 
 Family GPS locator Kid Control. 
 
+#Download
+
+[APK from Github](https://github.com/SergeyBurlaka/Care4UApp/blob/master/APK/Care4U%20v2.3.apk)  
+
 ###How to use 
 
 You register yourself as a manager or employee. When you register as a manager, you can add employee as a friend to manager's list.  After that manager can to spy on employee phone location. 
