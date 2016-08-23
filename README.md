@@ -15,8 +15,8 @@ Also he can to start spy service. First manager sets a circle (a circular area) 
 ### Screenshots
 
 <img src="https://cloud.githubusercontent.com/assets/21062067/17781771/4f5a5eb8-6579-11e6-9c42-2ab4f3b368f2.png" width="250">
+<img src="https://cloud.githubusercontent.com/assets/21062067/17880935/81f4ae80-6909-11e6-843e-dbb6004ea99a.jpg" width="250">
 <img src="https://cloud.githubusercontent.com/assets/21062067/17784579/afff230a-6585-11e6-814c-b61133982493.jpg" width="250">
-<img src="https://cloud.githubusercontent.com/assets/21062067/17880847/aa4412d2-6908-11e6-8c80-d14a07b37028.jpg" width="250">
 <img src="https://cloud.githubusercontent.com/assets/21062067/17880894/21e59dd8-6909-11e6-875d-6f6bc8ea29d8.jpg" width="250">
 <img src="https://cloud.githubusercontent.com/assets/21062067/17783801/52ef9d78-6582-11e6-880b-ae11ea062a0e.jpg" width="250">
 <img src="https://cloud.githubusercontent.com/assets/21062067/17784109/e5775284-6583-11e6-89a7-84be54d7ac5f.jpg" width="250">
