@@ -15,15 +15,15 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.gcm.GCMConstants.MessageConstant;
+import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.gcm.constants.MessageConstant;
 import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.Main2Activity;
-import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.manager.EmployeeDataWork.EmployeeOfM;
-import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.manager.EmployeeDataWork.EmployeeRequest;
-import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.manager.EmployeeDataWork.EmployeeRequestsActivity;
-import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.manager.ManagerRequests.AsynTaskForManager;
-import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.manager.ManagerRequests.AsynTaskForManagerEnum;
-import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.manager.EmployeeListView.DataManager;
-import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.manager.EmployeeListView.RecyclerClickListener;
+import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.manager.employee.data.EmployeeOfM;
+import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.manager.employee.data.EmployeeRequest;
+import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.manager.employee.data.EmployeeRequestsActivity;
+import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.manager.requests.AsynTaskForManager;
+import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.manager.requests.AsynTaskForManagerEnum;
+import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.manager.employee.list.DataManager;
+import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.manager.employee.list.RecyclerClickListener;
 import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.R;
 import com.readystatesoftware.viewbadger.BadgeView;
 
@@ -119,7 +119,7 @@ public class ManagerCabinetListActivity extends AppCompatActivity {
         final ArrayList <Integer> itemsSelected = new ArrayList();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Select Languages you know : ");
+        builder.setTitle("Select employees to delete : ");
         builder.setMultiChoiceItems(items, null,
                 new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
@@ -132,7 +132,7 @@ public class ManagerCabinetListActivity extends AppCompatActivity {
                         }
                     }
                 })
-                .setPositiveButton("Done!", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         //Your logic when OK button is clicked

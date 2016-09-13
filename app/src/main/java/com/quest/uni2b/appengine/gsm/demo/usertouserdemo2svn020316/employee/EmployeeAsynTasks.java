@@ -150,7 +150,7 @@ public class EmployeeAsynTasks  extends AsyncTask<Void, Void, String> {
                     // so it can use GCM/HTTP or CCS to send messages to your app.
                     // The request to your server should be authenticated if your app
                     // is using accounts.
-                   // Toast.makeText(context, msgRegId, Toast.LENGTH_LONG).show();
+                   //_1 Toast.makeText(context, msgRegId, Toast.LENGTH_LONG).show();
                     if (regId== null){msg = "Error: "; break;}
                     employeeApi.setEmployeeRegId(employeeeId, regId).execute();
                     msg = "";

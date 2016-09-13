@@ -45,11 +45,11 @@
         android:title="Help">
     </item>
 
-    <item
+   <!-- <item
         android:id="@+id/forDebug"
         app:showAsAction="never"
         android:title="For debug 101">
-    </item>
+    </item>-->
 
 
 

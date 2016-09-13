@@ -7,7 +7,7 @@
     android:orientation="vertical"
 
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.manager.ManagerMap.UserMapsActivity"
+    tools:context="com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.manager.map.UserMapsActivity"
     tools:showIn="@layout/activity_user_maps">
 
 

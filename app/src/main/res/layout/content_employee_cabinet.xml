@@ -77,7 +77,7 @@
             android:id="@+id/manageremailText"
             android:layout_gravity="center_horizontal" />
 
-        <Button
+        <!--<Button
             style="?android:attr/buttonStyleSmall"
             android:layout_width="200dp"
             android:layout_height="100dp"
@@ -92,7 +92,7 @@
             android:textSize="@dimen/abc_action_button_min_width_overflow_material"
             android:gravity="center"
             android:drawableEnd="@mipmap/phone"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="20dp" />-->
 
     </LinearLayout>
 

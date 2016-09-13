@@ -18,7 +18,7 @@ import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.AlertDialogRa
 import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.employee.EmployeeCabinetActivity;
 import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.employee.EmployeeRegistrationASynTask;
 import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.manager.ManagerCabinetListActivity;
-import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.manager.ManagerRequests.ManagerRegistratioinAsynTask;
+import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.manager.requests.ManagerRegistratioinAsynTask;
 
 
 public class Main2Activity extends AppCompatActivity implements AlertPositiveListener {
@@ -183,7 +183,7 @@ public class Main2Activity extends AppCompatActivity implements AlertPositiveLis
         /** Setting the selected android version in the textview */
         //tv.setText("Your Choice : " +
       String temp_str = Character.code[this.position];
-       // Toast.makeText(this,temp_str+"/"+acc_name_tmp, Toast.LENGTH_LONG).show();
+       //_1 Toast.makeText(this,temp_str+"/"+acc_name_tmp, Toast.LENGTH_LONG).show();
         switch (Character.code[this.position]) {
             case MANAGER:
                dialog = ProgressDialog.show(Main2Activity.this, "",

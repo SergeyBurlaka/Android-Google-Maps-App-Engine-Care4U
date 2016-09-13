@@ -65,7 +65,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".gcm.controller.GcmIntentService" />
+        <service android:name=".gcm.onreceive.GcmIntentService" />
 
         <activity
             android:name=".employee.EmployeeCabinetActivity"
@@ -73,7 +73,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver
-            android:name=".gcm.controller.GcmBroadcastReceiver"
+            android:name=".gcm.onreceive.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
@@ -83,16 +83,16 @@
         </receiver>
 
         <activity
-            android:name=".manager.ManagerMap.UserMapsActivity"
+            android:name=".manager.map.UserMapsActivity"
             android:label="@string/title_activity_user_maps"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".employee.EmployeeMap.EmployeeMapActivity"
+            android:name=".employee.map.EmployeeMapActivity"
             android:label="@string/title_activity_emplyee_map"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".manager.EmployeeDataWork.EmployeeRequestsActivity"
+            android:name=".manager.employee.data.EmployeeRequestsActivity"
             android:label="@string/title_activity_employee_requests"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -100,21 +100,22 @@
             android:label="@string/title_activity_manager_cabinet_list"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <service android:name=".employee.EmployeeMap.GetLocationService" />
-        <service android:name=".employee.SpyViaGeofence.GeofencingService" />
-        <service android:name=".employee.SpyViaGeofence.ReceiveTransitionsIntentService" />
-        <service android:name=".employee.SpyViaGPSService.GPSService" />
+        <service android:name=".employee.gps.GetLocationService" />
+        <service android:name=".employee.geofence.GeofencingService" />
+        <service android:name=".employee.geofence.ReceiveTransitionsIntentService" />
+        <service android:name=".employee.gps.GPSService" />
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".employee.EmployeeMap.TurnGPSFromPromptActivity"
+            android:name=".employee.gps.TurnGPSFromPromptActivity"
             android:label="@string/title_activity_turn_gpsfrom_prompt"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
-        <receiver android:name=".employee.EmployeeMap.GpsLocationReceiver">
+
+        <receiver android:name=".employee.gps.GpsLocationReceiver">
             <intent-filter>
                 <action android:name="android.location.PROVIDERS_CHANGED" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -124,17 +125,17 @@
 
 
 
-        <receiver
+      <!---  <receiver
 
 
-            android:process=":remote" android:name=".manager.IfOnlineEControl.AlarmServiceReceiver">
+            android:process=":remote" android:name=".manager.alarm.AlarmServiceReceiver">
 
             <intent-filter>
             <action android:name="com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.Manager" >
             </action>
             </intent-filter>
 
-        </receiver>
+        </receiver>-->
 
 
 

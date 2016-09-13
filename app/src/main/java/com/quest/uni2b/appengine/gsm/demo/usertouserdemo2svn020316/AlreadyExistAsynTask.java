@@ -64,7 +64,7 @@ public class AlreadyExistAsynTask extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... params) {
         if (managerApi == null) {
-           // Toast.makeText(contextMain2Activity, "became already exist request: "+credential.getSelectedAccountName(), Toast.LENGTH_LONG).show();
+           // _1 Toast.makeText(contextMain2Activity, "became already exist request: "+credential.getSelectedAccountName(), Toast.LENGTH_LONG).show();
             Log.i(TAG,  "became already exist request: "+credential.getSelectedAccountName());
             ManagerManagerApi.Builder builder = new ManagerManagerApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), credential)
                     .setRootUrl("https://sincere-baton-123818.appspot.com/_ah/api/");

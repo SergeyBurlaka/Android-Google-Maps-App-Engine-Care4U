@@ -3,12 +3,10 @@ package com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.employee;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,12 +15,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.employee.Constants4Emploee.EmplConst4ShPrfOrIntent;
-import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.employee.EmployeeMap.EmployeeMapActivity;
 import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.Main2Activity;
 import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.R;
+import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.employee.constants.EmplConst4ShPrfOrIntent;
+import com.quest.uni2b.appengine.gsm.demo.usertouserdemo2svn020316.employee.map.EmployeeMapActivity;
 
-public class EmployeeCabinetActivity extends AppCompatActivity implements View.OnClickListener, KeyEvent.Callback, Runnable {
+public class EmployeeCabinetActivity extends AppCompatActivity implements View.OnClickListener/*, KeyEvent.Callback, Runnable */{
 
     private GoogleCloudMessaging gcm;
     private static final String SENDER_ID = "414291776712";
@@ -30,7 +28,7 @@ public class EmployeeCabinetActivity extends AppCompatActivity implements View.O
     private long myIdInBase;
     private EditText managerEmail;
     private static final int NOTIFY_ID = 101;
-    private Thread t = new Thread(this);
+    //private Thread t = new Thread(this);
     private Handler h;
     private SharedPreferences sPref;
     private TextView nik;
@@ -46,7 +44,9 @@ public class EmployeeCabinetActivity extends AppCompatActivity implements View.O
         ed.commit();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_employee_cabinet);
+
         h = new Handler();
+
         nik = (TextView) findViewById(R.id.textViewNik);
         managerEmail =  (EditText) findViewById(R.id.getManagerEmailTxt);
         Intent intent = getIntent();
@@ -78,7 +78,7 @@ public class EmployeeCabinetActivity extends AppCompatActivity implements View.O
             //id is Long variable
             myIdInBase = Long.parseLong(string_temp);
             findViewById(R.id.getHiredButton).setOnClickListener(this);
-            findViewById(R.id.SOSButton).setOnClickListener(this);
+          //  findViewById(R.id.SOSButton).setOnClickListener(this);
            // findViewById(R.id.checkEmployeeInfoButtn).setOnClickListener(this);
         }
     }
@@ -136,7 +136,7 @@ public class EmployeeCabinetActivity extends AppCompatActivity implements View.O
                 new EmployeeAsynTasks(this, myIdInBase, managerEmailStr,AsynTaskForEmployee.GET_Hired).execute();
                 break;
 
-            case R.id.SOSButton:
+         /*   case R.id.SOSButton:
                 //if (checkEmail()) return;
                 //managerEmailStr = managerEmail.getText().toString();
                 // ShowNotification ();
@@ -146,7 +146,7 @@ public class EmployeeCabinetActivity extends AppCompatActivity implements View.O
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                break;
+                break;*/
         }
 
     }
@@ -162,7 +162,7 @@ public class EmployeeCabinetActivity extends AppCompatActivity implements View.O
     }
 
 
-    private void call() throws InterruptedException {
+   /* private void call() throws InterruptedException {
         if (t == null){
             Thread t = new Thread(this);
             Intent intent = new Intent(Intent.ACTION_CALL);
@@ -179,18 +179,18 @@ public class EmployeeCabinetActivity extends AppCompatActivity implements View.O
 
 
 
-    }
+    }*/
 
 
-    @Override
+   /* @Override
     public void run() {
         Intent i = new Intent(Intent.ACTION_MAIN);
         i.addCategory(Intent.CATEGORY_HOME);
         startActivity(i);
-    }
+    }*/
 
 
-    @Override
+    /*@Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP)){
             try {
@@ -200,7 +200,7 @@ public class EmployeeCabinetActivity extends AppCompatActivity implements View.O
             }
         }
         return true;
-    }
+    }*/
 
 
     @Override
