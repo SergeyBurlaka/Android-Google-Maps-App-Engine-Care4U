@@ -4,7 +4,7 @@ Family GPS locator Kid Control.
 
 ###Download
 
-[APK from Github](https://github.com/SergeyBurlaka/Care4UApp/blob/master/APK/Care4U%20v2.3.apk)  
+[APK from Github](https://github.com/SergeyBurlaka/Care4UApp/blob/master/APK/Care4U.apk)  
 
 ###How to use 
 
