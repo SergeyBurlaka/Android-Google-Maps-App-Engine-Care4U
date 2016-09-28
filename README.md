@@ -18,7 +18,7 @@ Manager can see employees in his contact list. List is implemented [Recycler Vie
 
  Manager opens map to get location for each employee by clicking employee name in app contact list. How it works? To get employee location request goes to server and forwards to employee client. App gets employee location in telephone via [Fused Location Provider Api Google service] (https://developers.google.com/android/reference/com/google/android/gms/location/FusedLocationProviderApi). In the end manager gets employee location in push – notification, because of [Google Cloud Messaging service] (https://developers.google.com/cloud-messaging/). 
 
-### Looking for employee with push-notification feature:
+## Looking for employee with push-notification feature:
 Manager can see help tips show in first time using map, because of [Showcase View Library] (https://github.com/amlcurran/ShowcaseView).
 Manager adds a circular area around employee's location on map; clicks to start. And app became to monitor the employee. 
 
@@ -31,7 +31,7 @@ As soon as employee leaved the circular area, manager had given notification: "A
 <img src="https://cloud.githubusercontent.com/assets/21062067/17784962/6d716aaa-6587-11e6-8c95-f5e2c6efa74e.jpg" >
 
 
-###  What is left to do?
+##  What is left to do?
 Activity for employee needs to modify. To add alarm “SOS” button, for getting worry notifications from employee in case of emergencies. Due button employee will be able to make cell to manager. 
 
 Employee can’t to add more than one manager! Otherwise app will work incorrect. Left to solve this problem.
