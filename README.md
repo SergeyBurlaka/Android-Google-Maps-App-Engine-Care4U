@@ -1,13 +1,10 @@
 # Care4U
-
 Family GPS locator Kid Control. This is android Client-Server app. App uses Google Maps, push – notifications, authorization OAuth 2.0. 
 
 ## Download
-
 [APK from Github](https://github.com/SergeyBurlaka/Care4UApp/blob/master/APK/Care4U.apk)  
 
 ## Was done
-
 ### Registration:
 Just make sign in for Google+ to begin using Care4You app. It works because of OAuth2.0  and Google+API. You can sign up as manager or employee.
 
@@ -24,7 +21,6 @@ Manager can see employees in his contact list. List is implemented [Recycler Vie
  Manager opens map to get location for each employee by clicking employee name in app contact list. How it works? To get employee location request goes to server and forwards to employee client. App gets employee location in telephone via [Fused Location Provider Api Google service] (https://developers.google.com/android/reference/com/google/android/gms/location/FusedLocationProviderApi). In the end manager gets employee location in push – notification, because of [Google Cloud Messaging service] (https://developers.google.com/cloud-messaging/). 
 
 ### Looking for employee with push-notification feature:
-
 Manager can see help tips show in first time using map, because of [Showcase View Library] (https://github.com/amlcurran/ShowcaseView).
 Manager adds a circular area around employee's location on map; clicks to start. And app became to monitor the employee. 
 
