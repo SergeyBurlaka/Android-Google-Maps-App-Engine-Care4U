@@ -6,7 +6,7 @@ Family GPS locator Kid Control. This is android Client-Server app.
 
 ## My java code 
 
-[client] (https://github.com/SergeyBurlaka/Android-Google-Maps-App-Engine-Care4U/tree/master/app/src/main)
+[client] (https://github.com/SergeyBurlaka/Android-Google-Maps-App-Engine-Care4U/tree/master/app/src/main/java/com/quest/uni2b/appengine/gsm/demo/usertouserdemo2svn020316)
 
 [backend] (https://github.com/SergeyBurlaka/Android-Google-Maps-App-Engine-Care4U/tree/master/backend/src/main/java/com/example/Operator/myapplication/backend)
 
