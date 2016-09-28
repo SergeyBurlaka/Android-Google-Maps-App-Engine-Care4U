@@ -9,7 +9,7 @@ Family GPS locator Kid Control. This is android Client-Server app. App uses Goog
 Just make sign in for Google+ to begin using Care4You app. It works because of OAuth2.0  and Google+API. You can sign up as manager or employee.
 
 ### Relationship request:
-Inputting manager email and clicking “Get Hired” employee sends a relationship request to manager. Manager gets request from employee and add it to his relationship. Manager can see subordinate employee in his contact list. 
+Inputting manager email and clicking “Get Hired” employee sends a relationship request to manager. Manager gets request from employee and add it to his relationship.
 
 ### Manager working space:
 Manager can see employees in his contact list. List is implemented [Recycler View List] (https://developer.android.com/training/material/lists-cards.html).
