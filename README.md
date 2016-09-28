@@ -1,13 +1,10 @@
 # Care4U
 
-Family GPS locator Kid Control. 
+Family GPS locator Kid Control. This is android Client-Server app. App uses Google Maps, push – notifications, authorization OAuth 2.0. 
 
 ## Download
 
 [APK from Github](https://github.com/SergeyBurlaka/Care4UApp/blob/master/APK/Care4U.apk)  
-
-## What is it?
-Care4You is open-source project. This is android Client-Server app. This is real-time GPS tracker for keeping track of children. App uses Google Maps, push – notifications, authorization OAuth 2.0. 
 
 ## Was done
 
