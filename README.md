@@ -4,18 +4,12 @@ Family GPS locator Kid Control. This is android Client-Server app. App uses Goog
 ## Download
 [APK from Github] (https://github.com/SergeyBurlaka/Care4UApp/blob/master/APK/Care4U.apk)  
 
-### Technology used in Care4UApp
+## Technology used in Care4UApp
 
 [Google Cloud Platform] (https://cloud.google.com/) services, such as [Google App Engine] (https://cloud.google.com/appengine/), [Google Cloud Endpoints] (https://cloud.google.com/appengine/docs/java/endpoints/), that allow you to generate APIs; [Google Cloud Messaging service] (https://developers.google.com/cloud-messaging/); [Google+ Sign In API] (https://developers.google.com/+/web/signin/); [Google Maps API] (https://developers.google.com/maps/?hl=ru). Implementation of project server-side is [App Engine Backend with Google Cloud Messaging" Template] (https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/GcmEndpoints#app-engine-backend-with-google-cloud-messaging-template).
 
-## Was done
-### Registration:
-Just make sign in for Google+ to begin using Care4You app. It works because of [OAuth2.0] (https://oauth.net/2/)  and [Google+API] (https://developers.google.com/+/web/signin/). You can sign up as manager or employee.
 
-### Relationship request:
-Inputting manager email and clicking “Get Hired” employee sends a relationship request to manager. Manager gets request from employee and add it to his relationship.
-
-### Manager working space:
+## Manager working space:
 Manager can see employees in his contact list. List is implemented [Recycler View List] (https://developer.android.com/training/material/lists-cards.html).
 
 <img src="https://cloud.githubusercontent.com/assets/21062067/17781771/4f5a5eb8-6579-11e6-9c42-2ab4f3b368f2.png" width="250">
