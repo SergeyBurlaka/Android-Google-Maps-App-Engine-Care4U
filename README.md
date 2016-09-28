@@ -28,9 +28,10 @@ Manager adds a circular area around employee's location on map; clicks to start.
 <img src="https://cloud.githubusercontent.com/assets/21062067/17783801/52ef9d78-6582-11e6-880b-ae11ea062a0e.jpg" width="250">
 <img src="https://cloud.githubusercontent.com/assets/21062067/17784109/e5775284-6583-11e6-89a7-84be54d7ac5f.jpg" width="250">
 
+As soon as employee leaved the circular area, manager had given notification: "Alarm! Employee leaved the circular area. He isn't in Safe Zone, now!” Useful feature works, because of GPS and Google Cloud Messaging service. 
+
 <img src="https://cloud.githubusercontent.com/assets/21062067/17784962/6d716aaa-6587-11e6-8c95-f5e2c6efa74e.jpg" >
 
-As soon as employee leaved the circular area, manager had given notification: "Alarm! Employee leaved the circular area. He isn't in Safe Zone, now!” Useful feature works, because of GPS and Google Cloud Messaging service. 
 
 ###  What is left to do?
 Activity for employee needs to modify. To add alarm “SOS” button, for getting worry notifications from employee in case of emergencies. Due button employee will be able to make cell to manager. 
