@@ -2,7 +2,13 @@
 Family GPS locator Kid Control. This is android Client-Server app. 
 
 ## Download
-[APK from Github] (https://github.com/SergeyBurlaka/Care4UApp/blob/master/APK/Care4U.apk)  
+[APK from Github] (https://github.com/SergeyBurlaka/Care4UApp/blob/master/APK/Care4U.apk)
+
+## My java code 
+
+[client] (https://github.com/SergeyBurlaka/Android-Google-Maps-App-Engine-Care4U/tree/master/app/src/main)
+
+[backend] (https://github.com/SergeyBurlaka/Android-Google-Maps-App-Engine-Care4U/tree/master/backend/src/main/java/com/example/Operator/myapplication/backend)
 
 ## Technology used in Care4UApp
 [Google Maps API] (https://developers.google.com/maps/?hl=ru), [Google Cloud Messaging ] (https://developers.google.com/cloud-messaging/) for push–notifications, authorization with [Google+SignInAPI] (https://developers.google.com/+/web/signin/) and [OAuth 2.0] (https://oauth.net/2/). Server-side technologies are [Google Cloud Platform] (https://cloud.google.com/) services, such as [Google App Engine] (https://cloud.google.com/appengine/), [Google Cloud Endpoints] (https://cloud.google.com/appengine/docs/java/endpoints/) to generate APIs; Implementation of project server-side is [App Engine Backend with Google Cloud Messaging" Template] (https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/GcmEndpoints#app-engine-backend-with-google-cloud-messaging-template).
