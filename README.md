@@ -21,10 +21,10 @@ Manager can see employees in his contact list. List is implemented [Recycler Vie
 <img src="https://cloud.githubusercontent.com/assets/21062067/17880935/81f4ae80-6909-11e6-843e-dbb6004ea99a.jpg" width="250">
 <img src="https://cloud.githubusercontent.com/assets/21062067/17784579/afff230a-6585-11e6-814c-b61133982493.jpg" width="250"> 
 
- Manager opens map to get location for each employee by clicking employee name in app contact list. How it works? To get employee location request goes to server and forwards to employee client. App gets employee location in telephone via [Fused Location Provider Api Google service](https://developers.google.com/android/reference/com/google/android/gms/location/FusedLocationProviderApi). In the end manager gets employee location in push – notification, because of [Google Cloud Messaging service] (https://developers.google.com/cloud-messaging/). 
+ Manager opens map to get location for each employee by clicking employee name in app contact list. How it works? To get employee location request goes to server and forwards to employee client. App gets employee location in telephone via [Fused Location Provider Api Google service](https://developers.google.com/android/reference/com/google/android/gms/location/FusedLocationProviderApi). In the end manager gets employee location in push – notification, because of [Google Cloud Messaging service](https://developers.google.com/cloud-messaging/). 
 
 ## Looking for employee with push-notification feature:
-Manager can see help tips show in first time using map, because of [Showcase View Library] (https://github.com/amlcurran/ShowcaseView).
+Manager can see help tips show in first time using map, because of [Showcase View Library](https://github.com/amlcurran/ShowcaseView).
 Manager adds a circular area around employee's location on map; clicks to start. And app became to monitor the employee. 
 
 <img src="https://cloud.githubusercontent.com/assets/21062067/17880894/21e59dd8-6909-11e6-875d-6f6bc8ea29d8.jpg" width="250">
