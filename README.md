@@ -2,26 +2,26 @@
 Family GPS locator Kid Control. This is android Client-Server app. 
 
 ## Download
-[APK from Github] (https://github.com/SergeyBurlaka/Care4UApp/blob/master/APK/Care4U.apk)
+[APK from Github](https://github.com/SergeyBurlaka/Care4UApp/blob/master/APK/Care4U.apk)
 
 ## My java code 
 
-[client] (https://github.com/SergeyBurlaka/Android-Google-Maps-App-Engine-Care4U/tree/master/app/src/main/java/com/quest/uni2b/appengine/gsm/demo/usertouserdemo2svn020316)
+[client](https://github.com/SergeyBurlaka/Android-Google-Maps-App-Engine-Care4U/tree/master/app/src/main/java/com/quest/uni2b/appengine/gsm/demo/usertouserdemo2svn020316)
 
-[backend] (https://github.com/SergeyBurlaka/Android-Google-Maps-App-Engine-Care4U/tree/master/backend/src/main/java/com/example/Operator/myapplication/backend)
+[backend](https://github.com/SergeyBurlaka/Android-Google-Maps-App-Engine-Care4U/tree/master/backend/src/main/java/com/example/Operator/myapplication/backend)
 
 ## Technology used in Care4UApp
-[Google Maps API] (https://developers.google.com/maps/?hl=ru), [Google Cloud Messaging ] (https://developers.google.com/cloud-messaging/) for push–notifications, authorization with [Google+SignInAPI] (https://developers.google.com/+/web/signin/) and [OAuth 2.0] (https://oauth.net/2/). Server-side technologies are [Google Cloud Platform] (https://cloud.google.com/) services, such as [Google App Engine] (https://cloud.google.com/appengine/), [Google Cloud Endpoints] (https://cloud.google.com/appengine/docs/java/endpoints/) to generate APIs; Implementation of project server-side is [App Engine Backend with Google Cloud Messaging" Template] (https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/GcmEndpoints#app-engine-backend-with-google-cloud-messaging-template).
+[Google Maps API](https://developers.google.com/maps/?hl=ru), [Google Cloud Messaging ](https://developers.google.com/cloud-messaging/) for push–notifications, authorization with [Google+SignInAPI](https://developers.google.com/+/web/signin/) and [OAuth 2.0](https://oauth.net/2/). Server-side technologies are [Google Cloud Platform](https://cloud.google.com/) services, such as [Google App Engine](https://cloud.google.com/appengine/), [Google Cloud Endpoints](https://cloud.google.com/appengine/docs/java/endpoints/) to generate APIs; Implementation of project server-side is [App Engine Backend with Google Cloud Messaging" Template](https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/GcmEndpoints#app-engine-backend-with-google-cloud-messaging-template).
 
 
 ## Manager working space:
-Manager can see employees in his contact list. List is implemented [Recycler View List] (https://developer.android.com/training/material/lists-cards.html).
+Manager can see employees in his contact list. List is implemented [Recycler View List](https://developer.android.com/training/material/lists-cards.html).
 
 <img src="https://cloud.githubusercontent.com/assets/21062067/17781771/4f5a5eb8-6579-11e6-9c42-2ab4f3b368f2.png" width="250">
 <img src="https://cloud.githubusercontent.com/assets/21062067/17880935/81f4ae80-6909-11e6-843e-dbb6004ea99a.jpg" width="250">
 <img src="https://cloud.githubusercontent.com/assets/21062067/17784579/afff230a-6585-11e6-814c-b61133982493.jpg" width="250"> 
 
- Manager opens map to get location for each employee by clicking employee name in app contact list. How it works? To get employee location request goes to server and forwards to employee client. App gets employee location in telephone via [Fused Location Provider Api Google service] (https://developers.google.com/android/reference/com/google/android/gms/location/FusedLocationProviderApi). In the end manager gets employee location in push – notification, because of [Google Cloud Messaging service] (https://developers.google.com/cloud-messaging/). 
+ Manager opens map to get location for each employee by clicking employee name in app contact list. How it works? To get employee location request goes to server and forwards to employee client. App gets employee location in telephone via [Fused Location Provider Api Google service](https://developers.google.com/android/reference/com/google/android/gms/location/FusedLocationProviderApi). In the end manager gets employee location in push – notification, because of [Google Cloud Messaging service] (https://developers.google.com/cloud-messaging/). 
 
 ## Looking for employee with push-notification feature:
 Manager can see help tips show in first time using map, because of [Showcase View Library] (https://github.com/amlcurran/ShowcaseView).
